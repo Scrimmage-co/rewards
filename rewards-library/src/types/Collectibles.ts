@@ -11,14 +11,7 @@ export interface Collectible<Attribute = any> {
 }
 
 export interface Asset extends Collectible {
-  metadata: {
-    name: string;
-    description: string;
-    external_url: string;
-    image: string;
-    optimizedImage: string;
-    attributes: any[];
-  };
+  metadata: { name: string; description: string; external_url: string; image: string; optimizedImage: string; attributes: any[]; };
   blockchain_id: number;
 }
 
