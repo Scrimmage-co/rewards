@@ -5,6 +5,10 @@ export interface Offer<D extends Collectible = Collectible> {
   orderId: string;
   price: number;
   amount: number;
+
+
+
   expiresAt: number;
   isPartitioned: boolean;
+
 }
