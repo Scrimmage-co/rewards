@@ -6,6 +6,6 @@
     "outDir": "./rewards-library/dist"
   },
   "include": [
-    "src/**/*"
+    "./*"
   ]
 }
