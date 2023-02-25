@@ -2,6 +2,9 @@ name: Check & fix styling (eslint)
 
 on:
   push:
+    branches:
+      - 'master'
+  workflow_dispatch:
 
 jobs:
   prettier:
