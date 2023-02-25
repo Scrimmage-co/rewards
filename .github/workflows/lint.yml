@@ -5,6 +5,9 @@ on: [push]
 jobs:
   eslint:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./rewards-library
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -12,7 +15,6 @@ jobs:
           node-version: 16
       - run: npm ci # or yarn install
       - uses: sibiraj-s/action-eslint@v2
-        working-directory: ./rewards-library
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }} # Optional
           eslint-args: '--ignore-path=.gitignore --quiet'
