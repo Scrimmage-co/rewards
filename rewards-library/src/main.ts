@@ -1,3 +1,3 @@
 export function init() {
-  console.log("SCRIM SCRAM");
+  console.log('SCRIM SCRAM');
 }
