@@ -1,2 +1,1 @@
-import {sayHello} from 'hwrld'
-sayHello();
+import {User} from 'scrimmage-rewards'
