@@ -16,7 +16,7 @@ jobs:
       - name: Run ESLint
         uses: permafrost-dev/eslint-docker-ga@main
         with:
-          args: --fix ./rewards-library/**/*
+          args: --fix ./src/**/*
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
