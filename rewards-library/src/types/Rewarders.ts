@@ -8,6 +8,7 @@ export interface Rewarder {
   updatedAt: Date;
   createdAt: Date;
   code: string;
+  priority: number;
 }
 
 export type IntegrationStatus = 'rejected' | 'active' | 'inactive';
