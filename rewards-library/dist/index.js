@@ -17,3 +17,4 @@ __exportStar(require("./types/Collectible"), exports);
 __exportStar(require("./types/Asset"), exports);
 __exportStar(require("./types/Item"), exports);
 __exportStar(require("./types/Rewarders"), exports);
+__exportStar(require("./types/Region"), exports);
