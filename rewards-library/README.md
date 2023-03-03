@@ -1,7 +1,9 @@
 
 # Rewards.ts
 
-Simple WEB3 rewards for your app or website.
+The low-code loyalty program maker. 
+
+This library is a part of the Scrimmage Rewards Program that is providing a decentralized solution for loyalty programs and rewards.
 
 Tutorial can be found at  ... .
 
