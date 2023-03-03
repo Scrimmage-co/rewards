@@ -1,6 +1,6 @@
 {
   "name": "scrimmage-rewards",
-  "version": "0.0.10-beta",
+  "version": "0.0.11-beta",
   "description": "Simple WEB3 rewards for your app or website",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
