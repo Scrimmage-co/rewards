@@ -1,4 +1,4 @@
-import {Collectible} from "./Collectible";
+import { Collectible } from './Collectible';
 
 // The Item interface is used to define the structure of a unique tradable ERC-1155 token.
 // It is used to define unique things that you can buy, store, and sell in the marketplace
@@ -43,4 +43,3 @@ export interface Item extends Collectible<ItemAttribute> {
   blockchain_id: number;
   edition: number;
 }
-
