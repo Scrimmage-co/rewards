@@ -1,5 +1,7 @@
+export type integrator = 'betopenly' | 'sharpsport'| 'direct';
+
 export interface Rewarder {
-  integrator: string;
+  integrator: integrator;
   id: number;
   name: string;
   image: string;
@@ -9,6 +11,7 @@ export interface Rewarder {
   createdAt: Date;
   code: string;
   priority: number;
+  integrationUrl: string;
 }
 
 export type IntegrationStatus = 'rejected' | 'active' | 'inactive';
