@@ -4,6 +4,10 @@ export let REWARDER_ID = null;
 export let PRIVATE_KEY = null;
 export let BASE_URL = `https://scrimmage.onelink.me/1BGM?af_web_dp=https%3A%2F%2Frewards.scrimmage.co&af_xp=app&pid=Cross_sale&c=Direct%20Integration`; // Generated on appsflier dashboard
 
+export type rewarderConfig = {
+  sandbox: boolean;
+}
+
 export const initRewarder = (rewarderId: number, privateKey: string) => {
   REWARDER_ID = rewarderId;
   PRIVATE_KEY = privateKey;
