@@ -1,7 +1,7 @@
-export type integrator = 'betopenly' | 'sharpsports'| 'direct';
+export type Integrator = 'betopenly' | 'sharpsports' | 'direct';
 
 export interface Rewarder {
-  integrator: integrator;
+  integrator: Integrator;
   id: number;
   name: string;
   image: string;
