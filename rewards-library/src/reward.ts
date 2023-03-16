@@ -2,7 +2,9 @@ import { Rewardable } from './types/Rewardables';
 import Config from './config';
 import axios from 'axios';
 
-const trackRewardable = async (...rewardable: Rewardable[]) => {
+const trackRewardable = async <T extends Rewardable = Rewardable>(
+  ...rewardable: T[]
+) => {
   const config = Config.getConfigOrThrow();
   for (const reward of rewardable) {
     await axios.post(

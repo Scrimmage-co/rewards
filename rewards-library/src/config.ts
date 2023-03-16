@@ -8,16 +8,28 @@ export interface RewarderConfig {
 }
 
 export interface InternalRewarderConfig extends RewarderConfig {
-  baseUrl?: string;
-  loginUrl?: string;
+  baseUrl: string;
+  loginUrl: string;
+  imgUrl: string;
 }
 
-const defaultRewarderConfig: Partial<InternalRewarderConfig> = {
+/**
+ * Everything new in {@link InternalRewarderConfig} as is and everything
+ * as optional from {@link RewarderConfig}
+ */
+type DefaultRewarderConfig = Omit<
+  InternalRewarderConfig,
+  keyof RewarderConfig
+> &
+  Partial<RewarderConfig>;
+
+const defaultRewarderConfig: DefaultRewarderConfig = {
   sandbox: false,
   logLevel: 'debug',
   // Generated on AppsFlier dashboard
   loginUrl: `https://scrimmage.onelink.me/1BGM?af_web_dp=https%3A%2F%2Frewards.scrimmage.co&af_xp=app&pid=Cross_sale&c=Direct%20Integration`,
   baseUrl: 'https://app.scrimmage.co/api',
+  imgUrl: 'https://app.scrimmage.co/img',
 };
 
 let rewarderConfig: InternalRewarderConfig;
