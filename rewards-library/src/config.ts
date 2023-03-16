@@ -42,7 +42,7 @@ const setConfig = (config: RewarderConfig) => {
 };
 
 const isConfigured = (): boolean => {
-  return !rewarderConfig;
+  return Boolean(rewarderConfig);
 };
 
 const getConfigOrThrow = (): InternalRewarderConfig => {
