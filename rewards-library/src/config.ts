@@ -27,11 +27,11 @@ const setConfig = (config: RewarderConfig) => {
     ...defaultRewarderConfig,
     ...config,
   };
-}
+};
 
 const isConfigured = (): boolean => {
   return !rewarderConfig;
-}
+};
 
 const getConfigOrThrow = (): InternalRewarderConfig => {
   if (isConfigured()) {
@@ -39,12 +39,12 @@ const getConfigOrThrow = (): InternalRewarderConfig => {
   } else {
     throw new Error('Rewarder not initiated');
   }
-}
+};
 
 const Config = {
   setConfig,
   getConfigOrThrow,
   isConfigured,
-}
+};
 
 export default Config;

@@ -63,4 +63,4 @@ export type REGION =
   | 'RUSSIA'
   | 'ANTARCTICA'
   | 'ATLANTIS'
-  | 'OTHER'
+  | 'OTHER';

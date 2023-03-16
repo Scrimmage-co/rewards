@@ -5,70 +5,70 @@ export type BetLeague = string;
 export type BetSport = string;
 
 export interface Rewardable {
-    /**
-     * @description use unique id for rewardable. Do not use the same id twice
-     */
-    id: string;
+  /**
+   * @description use unique id for rewardable. Do not use the same id twice
+   */
+  id: string;
 
-    /**
-     * @description type of rewarder
-     */
-    type: string;
+  /**
+   * @description type of rewarder
+   */
+  type: string;
 
-    /**
-     * @description Internal user id used during integration
-     */
-    userId: string;
+  /**
+   * @description Internal user id used during integration
+   */
+  userId: string;
 }
 
 export interface Bet extends Rewardable {
-    type: 'bet';
+  type: 'bet';
 
-    betType: BetType;
+  betType: BetType;
 
-    /**
-     * @description decimal odds
-     */
-    odds: number;
+  /**
+   * @description decimal odds
+   */
+  odds: number;
 
-    description: string;
+  description: string;
 
-    /**
-     * @description convert everything in dollars. In cents
-     */
-    wagerAmount: number;
+  /**
+   * @description convert everything in dollars. In cents
+   */
+  wagerAmount: number;
 
-    /**
-     * @description convert everything in dollars. In cents
-     */
-    netProfit: number;
+  /**
+   * @description convert everything in dollars. In cents
+   */
+  netProfit: number;
 
-    /**
-     * @description Make sure you convert
-     */
-    outcome: BetOutcome;
+  /**
+   * @description Make sure you convert
+   */
+  outcome: BetOutcome;
 
-    /**
-     * @description UNIX
-     */
-    betDate: number;
+  /**
+   * @description UNIX
+   */
+  betDate: number;
 
-    bets: SingleBet[];
+  bets: SingleBet[];
 }
 
 export interface SingleBet {
-    type: SingleBetType;
+  type: SingleBetType;
 
-    /**
-     * @description decimal odds
-     */
-    odds: number;
+  /**
+   * @description decimal odds
+   */
+  odds: number;
 
-    teamBetOn: string;
+  teamBetOn: string;
 
-    teamBetAgainst: string;
+  teamBetAgainst: string;
 
-    league: BetLeague;
+  league: BetLeague;
 
-    sport: BetSport;
+  sport: BetSport;
 }

@@ -6,6 +6,6 @@ const logger: Record<LogLevel, typeof console.log> = {
   debug: (...args) => console.debug(args),
   info: (...args) => console.info(args),
   error: (...args) => console.error(args),
-}
+};
 
 export default logger;
