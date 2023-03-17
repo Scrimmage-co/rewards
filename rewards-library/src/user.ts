@@ -1,12 +1,18 @@
 import Config from './config';
 import * as crypto from 'crypto';
+import { RewardUser, RewardUserDetails } from './types/RewardUser';
+import API from './api';
 
-const getOne = async () => {
-  throw new Error('Not implemented');
+const getOne = async (userId: string): Promise<RewardUserDetails> => {
+  const profile = await API.getIntegrationUserProfile(userId);
+  return {
+    userId: userId,
+    tokens: profile.tokens,
+  };
 };
 
-const getAll = async () => {
-  throw new Error('Not implemented');
+const getAll = async (): Promise<RewardUser> => {
+  return API.getAllIntegrationUsers();
 };
 
 const generateLoginLink = (userId: string) => {

@@ -1,23 +1,11 @@
 import { Rewardable } from './types/Rewardables';
-import Config from './config';
-import axios from 'axios';
+import API from './api';
 
 const trackRewardable = async <T extends Rewardable = Rewardable>(
   ...rewardable: T[]
 ) => {
-  const config = Config.getConfigOrThrow();
   for (const reward of rewardable) {
-    await axios.post(
-      `${config.baseUrl}/integrations/rewards`,
-      {
-        rewardable: reward,
-      },
-      {
-        headers: {
-          Authorization: `Token ${config.privateKey}`,
-        },
-      },
-    );
+    await API.createIntegrationReward(reward);
   }
 };
 
