@@ -1,7 +1,6 @@
-import axios, { AxiosError } from 'axios/index';
 import { Rewardable } from './types/Rewardables';
 import Config from './config';
-import { HttpStatusCode } from 'axios';
+import axios, { HttpStatusCode, AxiosError } from 'axios';
 import { EntityNotFoundException } from './exceptions/EntityNotFound.exception';
 import { AccountNotLinkedException } from './exceptions/AccountNotLinked.exception';
 
@@ -24,7 +23,7 @@ const createIntegrationReward = <T extends Rewardable = Rewardable>(
     )
     .then((response) => response.data)
     .catch((error: AxiosError) => {
-      if (error.status === HttpStatusCode.NotFound) {
+      if (error.response.status === HttpStatusCode.NotFound) {
         return Promise.reject(new AccountNotLinkedException(reward.userId));
       }
       return Promise.reject(error);
@@ -54,7 +53,7 @@ const getIntegrationUserProfile = (userId: string): Promise<any> => {
     })
     .then((response) => response.data)
     .catch((cause: AxiosError) => {
-      if (cause.status === HttpStatusCode.NotFound) {
+      if (cause.response.status === HttpStatusCode.NotFound) {
         return Promise.reject(new EntityNotFoundException(userId, 'User'));
       }
       return Promise.reject(cause);
