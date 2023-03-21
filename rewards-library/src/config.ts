@@ -27,7 +27,7 @@ const defaultRewarderConfig: DefaultRewarderConfig = {
   sandbox: false,
   logLevel: 'debug',
   // Generated on AppsFlier dashboard
-  loginUrl: `https://scrimmage.onelink.me/1BGM?af_web_dp=https%3A%2F%2Frewards.scrimmage.co&pid=lib%2Frewards&c=direct-integration`,
+  loginUrl: `https://scrimmage.onelink.me/1BGM?af_web_dp=https%3A%2F%2Frewards.scrimmage.co&af_xp=app&pid=lib_rewards&c=direct_integration`,
   baseUrl: 'https://app.scrimmage.co/api',
   imgUrl: 'https://app.scrimmage.co/img',
 };
