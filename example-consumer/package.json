@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npx ts-node somefile",
+    "test": "npx ts-node",
     "linklib": "npm run --prefix ../rewards-library build && npm link ../rewards-library",
     "install-beta": "npm install hwrld@beta",
     "install-lib": "npm install hwrld"
@@ -17,5 +17,8 @@
   "devDependencies": {
     "ts-node": "^9.1.1",
     "typescript": "^4.2.3"
+  },
+  "config": {
+    "file": "./tests/win-bet.ts"
   }
 }

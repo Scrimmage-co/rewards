@@ -1,7 +1,6 @@
 import { LogLevel } from './logger';
 
 export interface RewarderConfig {
-  rewarderId: number;
   privateKey: string;
   sandbox?: boolean;
   logLevel?: LogLevel;
