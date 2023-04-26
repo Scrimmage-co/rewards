@@ -1,4 +1,10 @@
-export type BetOutcome = 'win' | 'lose' | 'push' | 'cashout' | 'postponed' | 'live';
+export type BetOutcome =
+  | 'win'
+  | 'lose'
+  | 'push'
+  | 'cashout'
+  | 'postponed'
+  | 'live';
 export type BetType = 'single' | 'parlays';
 export type SingleBetType = 'over' | 'under' | 'spread' | 'moneyline' | 'prop';
 export type BetLeague = string;
