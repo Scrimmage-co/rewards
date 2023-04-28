@@ -2,8 +2,8 @@ import Scrimmage, {Bet, BetLeague, BetOutcome, BetSport, BetType, SingleBet, Sin
 
 const init = () => {
   Scrimmage.initRewarder({
-    privateKey: 'plinko_secret',
-    baseUrl: 'http://127.0.0.1:3001', // redefine URL for testing
+    privateKey: 'AYeqBMEEeewDZM1rng_nIwXyKRJT0xjmuSNzFAxK2loAy9FLZoqSMzQJEjDdLbw-Px7fKudU',
+    baseUrl: 'https://coinflip.apps.scrimmage.co/api', // redefine URL for testing
     // baseUrl: 'https://staging-app.scrimmage.co/api', // redefine URL for testing
     // loginUrl: 'https://rewards.scrimmage.co/integrate?', // redefine URL for testing
   } as any);
@@ -62,6 +62,6 @@ function generateRandomId() {
         sport: 'Football',
       },
     ],
-  }, 'nanachi')
+  }, '1')
 } )();
 

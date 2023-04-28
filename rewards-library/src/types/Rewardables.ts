@@ -1,10 +1,4 @@
-export type BetOutcome =
-  | 'win'
-  | 'lose'
-  | 'push'
-  | 'cashout'
-  | 'postponed'
-  | 'live';
+export type BetOutcome = 'win' | 'lose' | 'push' | 'cashout' | 'postponed';
 export type BetType = 'single' | 'parlays';
 export type SingleBetType = 'over' | 'under' | 'spread' | 'moneyline' | 'prop';
 export type BetLeague = string;
@@ -60,6 +54,8 @@ export interface Bet extends Rewardable {
   betDate: number;
 
   bets: SingleBet[];
+
+  isLive?: boolean;
 }
 
 export interface SingleBet {
@@ -70,9 +66,11 @@ export interface SingleBet {
    */
   odds: number;
 
-  teamBetOn: string;
+  teamBetOn?: string;
 
-  teamBetAgainst: string;
+  teamBetAgainst?: string;
+
+  player?: string;
 
   league: BetLeague;
 

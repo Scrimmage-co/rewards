@@ -2,8 +2,8 @@ import Scrimmage, {Bet, BetLeague, BetOutcome, BetSport, BetType, SingleBet, Sin
 
 const init = () => {
   Scrimmage.initRewarder({
-    privateKey: 'plinko_secret',
-    baseUrl: 'http://127.0.0.1:3001', // redefine URL for testing
+    privateKey: 'AYeqBMEEeewDZM1rng_nIwXyKRJT0xjmuSNzFAxK2loAy9FLZoqSMzQJEjDdLbw-Px7fKudU',
+    baseUrl: 'https://coinflip.apps.scrimmage.co/api', // redefine URL for testing
     // baseUrl: 'https://staging-app.scrimmage.co/api', // redefine URL for testing
     // loginUrl: 'https://rewards.scrimmage.co/integrate?', // redefine URL for testing
   } as any);
@@ -42,9 +42,10 @@ function generateRandomId() {
 
 //Start execution and wait till the termination signal is received from the terminal
 (async () => {
+  const id = generateRandomId()
   console.log('Sending rewards for live bets')
   sendReward({
-    id: generateRandomId(),
+    id: id,
     betType: 'single',
     odds: 1.5,
     description: 'Bet description',
@@ -62,11 +63,11 @@ function generateRandomId() {
         sport: 'Football',
       },
     ],
-  }, 'nanachi')
+  }, '1')
 
   setTimeout(() => {
     sendReward({
-      id: generateRandomId(),
+      id: id,
       betType: 'single',
       odds: 1.3,
       description: 'Bet description',
@@ -84,12 +85,12 @@ function generateRandomId() {
           sport: 'Football',
         },
       ],
-    }, 'nanachi')
+    }, '1')
   }, 1000)
 
   setTimeout(() => {
     sendReward({
-      id: generateRandomId(),
+      id: id,
       betType: 'single',
       odds: 1.6,
       description: 'Bet description',
@@ -107,7 +108,7 @@ function generateRandomId() {
           sport: 'Football',
         },
       ],
-    }, 'nanachi')
+    }, '1')
   }, 2000)
 } )();
 
