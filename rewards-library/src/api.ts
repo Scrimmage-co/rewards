@@ -4,19 +4,21 @@ import axios, { HttpStatusCode, AxiosError } from 'axios';
 import { AccountNotLinkedException } from './exceptions/AccountNotLinked.exception';
 
 const createIntegrationReward = <T extends Rewardable = Rewardable>(
+  privateKeyAlias: string,
   reward: T,
 ): Promise<any> => {
-  const config = Config.getConfigOrThrow();
+  const privateKey = Config.getPrivateKeyOrThrow(privateKeyAlias);
+  const serviceUrl = Config.getServiceUrl('api');
 
   return axios
     .post(
-      `${config.baseUrl}/integrations/rewards`,
+      `${serviceUrl}/integrations/rewards`,
       {
         rewardable: reward,
       },
       {
         headers: {
-          Authorization: `Token ${config.privateKey}`,
+          Authorization: `Token ${privateKey}`,
         },
       },
     )
@@ -29,13 +31,14 @@ const createIntegrationReward = <T extends Rewardable = Rewardable>(
     });
 };
 
-const getAllIntegrationUsers = (): Promise<any> => {
-  const config = Config.getConfigOrThrow();
+const getAllIntegrationUsers = (privateKeyAlias: string): Promise<any> => {
+  const privateKey = Config.getPrivateKeyOrThrow(privateKeyAlias);
+  const serviceUrl = Config.getServiceUrl('api');
 
   return axios
-    .get(`${config.baseUrl}/integrations/users`, {
+    .get(`${serviceUrl}/integrations/users`, {
       headers: {
-        Authorization: `Token ${config.privateKey}`,
+        Authorization: `Token ${privateKey}`,
       },
     })
     .then((response) => response.data);

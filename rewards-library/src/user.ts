@@ -1,12 +1,14 @@
 import { RewardUser } from './types/RewardUser';
 import API from './api';
 
-const getAll = async (): Promise<RewardUser> => {
-  return API.getAllIntegrationUsers();
+const getAllForRewarder = async (
+  privateKeyAlias: string,
+): Promise<RewardUser> => {
+  return API.getAllIntegrationUsers(privateKeyAlias);
 };
 
 const User = {
-  getAll,
+  getAllForRewarder,
 };
 
 export default User;

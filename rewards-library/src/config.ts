@@ -1,15 +1,31 @@
 import { LogLevel } from './logger';
 
+export interface PrivateKey {
+  /**
+   * Alias for the private key. Used to identify the private key when
+   * sending rewards.
+   */
+  alias: string;
+  /**
+   * Private key used to send rewards.
+   */
+  value: string;
+}
+
 export interface RewarderConfig {
-  privateKey: string;
+  apiServerEndpoint: string;
+  privateKeys: PrivateKey[];
   sandbox?: boolean;
   logLevel?: LogLevel;
 }
 
 export interface InternalRewarderConfig extends RewarderConfig {
-  baseUrl: string;
-  loginUrl: string;
-  imgUrl: string;
+  services: {
+    api: string;
+    p2e: string;
+    fed: string;
+  },
+  apiServerProtocol: string;
 }
 
 /**
@@ -25,18 +41,32 @@ type DefaultRewarderConfig = Omit<
 const defaultRewarderConfig: DefaultRewarderConfig = {
   sandbox: false,
   logLevel: 'debug',
-  // Generated on AppsFlier dashboard
-  loginUrl: `https://scrimmage.onelink.me/1BGM?af_web_dp=https%3A%2F%2Frewards.scrimmage.co&af_xp=app&pid=lib_rewards&c=direct_integration`,
-  baseUrl: 'https://app.scrimmage.co/api',
-  imgUrl: 'https://app.scrimmage.co/img',
+  services: {
+    api: 'api',
+    p2e: 'p2e',
+    fed: 'fed',
+  },
+  apiServerProtocol: 'https',
 };
 
 let rewarderConfig: InternalRewarderConfig;
 
 const setConfig = (config: RewarderConfig) => {
+  const { apiServerEndpoint, ...rest } = config;
+  if (!apiServerEndpoint) {
+    throw new Error('apiServerEndpoint is required');
+  }
+  if (!apiServerEndpoint.startsWith('https://')) {
+    throw new Error('apiServerEndpoint must start with https://');
+  }
+  const apiEndpoint = apiServerEndpoint.endsWith('/')
+    ? apiServerEndpoint.slice(0, -1)
+    : apiServerEndpoint;
+
   rewarderConfig = {
     ...defaultRewarderConfig,
-    ...config,
+    ...rest,
+    apiServerEndpoint: apiEndpoint,
   };
 };
 
@@ -52,10 +82,31 @@ const getConfigOrThrow = (): InternalRewarderConfig => {
   }
 };
 
+const getPrivateKeyOrThrow = (alias: string): string => {
+  const config = getConfigOrThrow();
+  const privateKey = config.privateKeys.find((key) => key.alias === alias);
+
+  if (!privateKey) {
+    throw new Error(`Private key with alias [${alias}] not found`);
+  }
+
+  return privateKey.value;
+};
+
+const getServiceUrl = (
+  service: keyof DefaultRewarderConfig['services'],
+): string => {
+  const config = getConfigOrThrow();
+
+  return `${config.apiServerEndpoint}/${service}`;
+};
+
 const Config = {
   setConfig,
   getConfigOrThrow,
   isConfigured,
+  getPrivateKeyOrThrow,
+  getServiceUrl,
 };
 
 export default Config;
