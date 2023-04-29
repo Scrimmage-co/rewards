@@ -51,7 +51,7 @@ const getUserToken = (
   const privateKeys = privateKeyAliases.map((alias) =>
     Config.getPrivateKeyOrThrow(alias),
   );
-  const serviceUrl = Config.getServiceUrl('p2e');
+  const serviceUrl = Config.getServiceUrl('api');
 
   return axios
     .post(`${serviceUrl}/integrations/users`, {
