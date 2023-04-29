@@ -53,10 +53,12 @@ const getUserToken = (
   );
   const serviceUrl = Config.getServiceUrl('p2e');
 
-  return axios.post(`${serviceUrl}/integrations/users`, {
-    id: userId,
-    rewarderKeys: privateKeys,
-  });
+  return axios
+    .post(`${serviceUrl}/integrations/users`, {
+      id: userId,
+      rewarderKeys: privateKeys,
+    })
+    .then((response) => response.data.token);
 };
 
 const API = {
