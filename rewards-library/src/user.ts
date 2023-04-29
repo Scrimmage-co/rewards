@@ -7,8 +7,16 @@ const getAllForRewarder = async (
   return API.getAllIntegrationUsers(privateKeyAlias);
 };
 
+const getUserToken = async (
+  userId: string,
+  privateKeyAliases: string[],
+): Promise<string> => {
+  return API.getUserToken(userId, privateKeyAliases);
+};
+
 const User = {
   getAllForRewarder,
+  getUserToken,
 };
 
 export default User;

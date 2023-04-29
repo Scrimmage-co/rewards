@@ -44,9 +44,25 @@ const getAllIntegrationUsers = (privateKeyAlias: string): Promise<any> => {
     .then((response) => response.data);
 };
 
+const getUserToken = (
+  userId: string,
+  privateKeyAliases: string[],
+): Promise<string> => {
+  const privateKeys = privateKeyAliases.map((alias) =>
+    Config.getPrivateKeyOrThrow(alias),
+  );
+  const serviceUrl = Config.getServiceUrl('p2e');
+
+  return axios.post(`${serviceUrl}/integrations/users`, {
+    id: userId,
+    rewarderKeys: privateKeys,
+  });
+};
+
 const API = {
   createIntegrationReward,
   getAllIntegrationUsers,
+  getUserToken,
 };
 
 export default API;

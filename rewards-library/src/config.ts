@@ -12,11 +12,20 @@ export interface PrivateKey {
   value: string;
 }
 
+export interface Logger {
+  log: (...args: any[]) => void;
+  warn: (...args: any[]) => void;
+  debug: (...args: any[]) => void;
+  info: (...args: any[]) => void;
+  error: (...args: any[]) => void;
+}
+
 export interface RewarderConfig {
   apiServerEndpoint: string;
   privateKeys: PrivateKey[];
   sandbox?: boolean;
   logLevel?: LogLevel;
+  logger?: Logger;
 }
 
 export interface InternalRewarderConfig extends RewarderConfig {
@@ -24,7 +33,7 @@ export interface InternalRewarderConfig extends RewarderConfig {
     api: string;
     p2e: string;
     fed: string;
-  },
+  };
   apiServerProtocol: string;
 }
 
@@ -47,6 +56,7 @@ const defaultRewarderConfig: DefaultRewarderConfig = {
     fed: 'fed',
   },
   apiServerProtocol: 'https',
+  logger: console,
 };
 
 let rewarderConfig: InternalRewarderConfig;
