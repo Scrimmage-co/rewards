@@ -2,6 +2,7 @@ import { Rewardable } from './types/Rewardables';
 import Config from './config';
 import axios, { HttpStatusCode, AxiosError } from 'axios';
 import { AccountNotLinkedException } from './exceptions/AccountNotLinked.exception';
+import { GetUserResourcesResponse } from './types/Resources';
 
 const createIntegrationReward = <T extends Rewardable = Rewardable>(
   privateKeyAlias: string,
@@ -61,10 +62,39 @@ const getUserToken = (
     .then((response) => response.data.token);
 };
 
+const levelUp = (itemId: number, token: string): Promise<any> => {
+  return axios
+    .patch(
+      `${Config.getServiceUrl('p2e')}/items/${itemId}/level-up`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    )
+    .then((response) => response.data);
+};
+
+const getResources = (
+  userId: string,
+  token: string,
+): Promise<GetUserResourcesResponse> => {
+  return axios
+    .get(`${Config.getServiceUrl('p2e')}/resources/`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((response) => response.data);
+};
+
 const API = {
   createIntegrationReward,
   getAllIntegrationUsers,
   getUserToken,
+  levelUp,
+  getResources,
 };
 
 export default API;
