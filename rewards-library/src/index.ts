@@ -8,4 +8,3 @@ export * from './types/RewardUser';
 export * from './types/Resources';
 export * from './types/Quests';
 export * from './types/LevelConfig';
-export * from './types/Daily';

@@ -1,7 +1,6 @@
-import { ActiveItem } from './Item';
+import { ActiveItem, Daily } from '@scrimmage/schemas';
 import { LevelConfig } from './LevelConfig';
 import { QuestsConfig } from './Quests';
-import { Daily } from './Daily';
 
 export interface GetUserResourcesResponse {
   activeItem: ActiveItem;
