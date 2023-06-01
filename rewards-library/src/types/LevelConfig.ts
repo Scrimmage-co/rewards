@@ -7,8 +7,6 @@ export interface LevelConfig {
   dailyBonus: number;
   perkSlots: number;
   perkAmountReward: number;
-  createdAt: string;
-  updatedAt: string;
   bronzeQuestsRequired: number;
   silverQuestsRequired: number;
   goldenQuestsRequired: number;
