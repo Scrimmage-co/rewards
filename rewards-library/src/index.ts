@@ -6,5 +6,4 @@ export * from './types/Region';
 export * from './types/Rewardables';
 export * from './types/RewardUser';
 export * from './types/Resources';
-export * from './types/Quests';
 export * from './types/LevelConfig';
