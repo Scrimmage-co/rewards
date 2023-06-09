@@ -1,5 +1,4 @@
-
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom } from "rxjs";
 import axios from "axios";
 
 const SECRET = "secret";
@@ -19,28 +18,28 @@ const init = () => {
   Scrimmage.initRewarder({
     privateKeys: [
       {
-        alias: 'betting',
-        value: 'test',
-      }
+        alias: "betting",
+        value: "test",
+      },
     ],
-    apiServerEndpoint: 'https://nevada.apps.scrimmage.co',
+    apiServerEndpoint: "https://nevada.apps.scrimmage.co",
   });
 };
 
 const getUserToken = async (userId: string) => {
-  return Scrimmage.user.getUserToken(userId, ['betting']);
-}
+  return Scrimmage.user.getUserToken(userId, ["betting"]);
+};
 
 const levelUpPlayer = async (itemId: number, token: string) => {
   return Scrimmage.user.levelUp(itemId, token);
-}
+};
 
 const getPlayerResources = async (userId: string, token: string) => {
   return Scrimmage.user.getResources(userId, token);
-}
+};
 
 (async () => {
-  init()
+  init();
   const userAmount = 1000;
   let iterator = 1;
   const commonId = Math.floor(Math.random() * 1000);
@@ -48,13 +47,13 @@ const getPlayerResources = async (userId: string, token: string) => {
   const interval = setInterval(async () => {
     if (iterator > userAmount) {
       clearInterval(interval);
-      console.log('Done')
+      console.log("Done");
       setTimeout(async () => {
-        console.log('Done 2')
+        console.log("Done 2");
       }, 1000000);
       return;
     }
-    let id = commonId.toString() + '::' + iterator++;
+    let id = commonId.toString() + "::" + iterator++;
     // Add random number to ID
 
     try {

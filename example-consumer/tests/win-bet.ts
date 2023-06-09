@@ -1,22 +1,15 @@
-import Scrimmage, {
-  Bet,
-  BetLeague,
-  BetOutcome,
-  BetSport,
-  BetType,
-  SingleBet,
-  SingleBetType,
-} from "@scrimmage/rewards";
+import Scrimmage, { Bet, BetLeague, BetOutcome, BetSport, BetType, SingleBet, SingleBetType } from 'scrimmage-rewards';
 
 const init = () => {
   Scrimmage.initRewarder({
     privateKeys: [
       {
-        alias: 'coinflip',
-        value: 'AYeqBMEEeewDZM1rng_nIwXyKRJT0xjmuSNzFAxK2loAy9FLZoqSMzQJEjDdLbw-Px7fKudU'
-      }
+        alias: "coinflip",
+        value:
+          "AYeqBMEEeewDZM1rng_nIwXyKRJT0xjmuSNzFAxK2loAy9FLZoqSMzQJEjDdLbw-Px7fKudU",
+      },
     ],
-    apiServerEndpoint: 'https://coinflip.apps.scrimmage.co',
+    apiServerEndpoint: "https://coinflip.apps.scrimmage.co",
   });
 };
 

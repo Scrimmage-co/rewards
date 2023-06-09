@@ -1,22 +1,14 @@
-import Scrimmage, {
-  Bet,
-  BetLeague,
-  BetOutcome,
-  BetSport,
-  BetType,
-  SingleBet,
-  SingleBetType,
-} from "@scrimmage/rewards";
+import Scrimmage, { Bet, BetLeague, BetOutcome, BetSport, BetType, SingleBet, SingleBetType } from 'scrimmage-rewards';
 
 const init = () => {
   Scrimmage.initRewarder({
     privateKeys: [
       {
-        alias: 'betting',
-        value: 'test',
-      }
+        alias: "betting",
+        value: "test",
+      },
     ],
-    apiServerEndpoint: 'https://nevada.apps.scrimmage.co',
+    apiServerEndpoint: "https://nevada.apps.scrimmage.co",
   });
 };
 
@@ -55,13 +47,13 @@ function generateRandomId() {
 
 //Start execution and wait till the termination signal is received from the terminal
 (async () => {
-  const id = generateRandomId()
+  const id = generateRandomId();
   let iterator = 1;
   let errors = 0;
 
   setInterval(async () => {
-    const id = Date.now().toString()
-    console.log(`Sending rewards for bet #${iterator++}, bet id: ${id} `)
+    const id = Date.now().toString();
+    console.log(`Sending rewards for bet #${iterator++}, bet id: ${id} `);
     try {
       await sendReward({
           id: id,
@@ -84,8 +76,9 @@ function generateRandomId() {
           ],
       }, '875::49')
     } catch (e) {
-      console.log(`uups, now we have ${++errors} errors, from ${iterator} requests: ${e}`)
+      console.log(
+        `uups, now we have ${++errors} errors, from ${iterator} requests: ${e}`
+      );
     }
-  }, 50)
+  }, 50);
 })();
-
