@@ -2,10 +2,18 @@
 import { firstValueFrom } from 'rxjs';
 import axios from "axios";
 
-const SECRET = 'secret';
-const BASE_URL = 'https://nevada.apps.scrimmage.co/';
-const WEB3_SERVICE_USER_ID_HEADER = "Scrimmage-User-ID"
-import Scrimmage, { Bet, BetLeague, BetOutcome, BetSport, BetType, SingleBet, SingleBetType } from 'scrimmage-rewards';
+const SECRET = "secret";
+const BASE_URL = "https://nevada.apps.scrimmage.co/";
+const WEB3_SERVICE_USER_ID_HEADER = "Scrimmage-User-ID";
+import Scrimmage, {
+  Bet,
+  BetLeague,
+  BetOutcome,
+  BetSport,
+  BetType,
+  SingleBet,
+  SingleBetType,
+} from "@scrimmage/rewards";
 
 const init = () => {
   Scrimmage.initRewarder({
