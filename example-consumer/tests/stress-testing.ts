@@ -1,4 +1,12 @@
-import Scrimmage, { Bet, BetLeague, BetOutcome, BetSport, BetType, SingleBet, SingleBetType } from 'scrimmage-rewards';
+import Scrimmage, {
+  Bet,
+  BetLeague,
+  BetOutcome,
+  BetSport,
+  BetType,
+  SingleBet,
+  SingleBetType,
+} from "@scrimmage/rewards";
 
 const init = () => {
   Scrimmage.initRewarder({
@@ -13,13 +21,11 @@ const init = () => {
 };
 
 export const sendReward = async (data: any, uid: string) => {
-  init()
-  await Scrimmage.reward.trackRewardable<Bet>(
-    'betting',
-    {
+  init();
+  await Scrimmage.reward.trackRewardable<Bet>("betting", {
     id: <string>data.id,
     userId: <string>uid,
-      type: 'bet',
+    type: "bet",
     betType: <BetType>data.betType,
     // decimal odds
     odds: <number>data.odds,
@@ -55,26 +61,29 @@ function generateRandomId() {
     const id = Date.now().toString();
     console.log(`Sending rewards for bet #${iterator++}, bet id: ${id} `);
     try {
-      await sendReward({
+      await sendReward(
+        {
           id: id,
-        betType: 'single',
+          betType: "single",
           odds: 1.3,
-        description: 'Bet description',
+          description: "Bet description",
           wagerAmount: 200,
           netProfit: 260,
-        outcome: 'win',
+          outcome: "win",
           betDate: Date.now(),
           bets: [
             {
-            type: 'under',
+              type: "under",
               odds: 1.5,
-            teamBetOn: 'Team A',
-            teamBetAgainst: 'Team B',
-            league: 'NCAAF',
-            sport: 'Football',
+              teamBetOn: "Team A",
+              teamBetAgainst: "Team B",
+              league: "NCAAF",
+              sport: "Football",
             },
           ],
-      }, '875::49')
+        },
+        "875::49"
+      );
     } catch (e) {
       console.log(
         `uups, now we have ${++errors} errors, from ${iterator} requests: ${e}`

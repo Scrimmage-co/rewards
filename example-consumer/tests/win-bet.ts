@@ -1,4 +1,12 @@
-import Scrimmage, { Bet, BetLeague, BetOutcome, BetSport, BetType, SingleBet, SingleBetType } from 'scrimmage-rewards';
+import Scrimmage, {
+  Bet,
+  BetLeague,
+  BetOutcome,
+  BetSport,
+  BetType,
+  SingleBet,
+  SingleBetType,
+} from "@scrimmage/rewards";
 
 const init = () => {
   Scrimmage.initRewarder({
@@ -14,13 +22,11 @@ const init = () => {
 };
 
 export const sendReward = async (data: any, uid: string) => {
-  init()
-  await Scrimmage.reward.trackRewardable<Bet>(
-    'coinflip',
-    {
+  init();
+  await Scrimmage.reward.trackRewardable<Bet>("coinflip", {
     id: <string>data.id,
     userId: <string>uid,
-      type: 'bet',
+    type: "bet",
     betType: <BetType>data.betType,
     // decimal odds
     odds: <number>data.odds,
@@ -48,25 +54,28 @@ function generateRandomId() {
 
 //Start execution and wait till the termination signal is received from the terminal
 (async () => {
-  console.log('Sending rewards for won bets')
-  sendReward({
+  console.log("Sending rewards for won bets");
+  sendReward(
+    {
       id: generateRandomId(),
-    betType: 'single',
+      betType: "single",
       odds: 1.5,
-    description: 'Bet description',
+      description: "Bet description",
       wagerAmount: 200,
       netProfit: 100,
-    outcome: 'win',
+      outcome: "win",
       betDate: Date.now(),
       bets: [
         {
-        type: 'under',
+          type: "under",
           odds: 1.5,
-        teamBetOn: 'Team A',
-        teamBetAgainst: 'Team B',
-        league: 'NCAAF',
-        sport: 'Football',
+          teamBetOn: "Team A",
+          teamBetAgainst: "Team B",
+          league: "NCAAF",
+          sport: "Football",
         },
       ],
-  }, '1')
+    },
+    "1"
+  );
 })();
