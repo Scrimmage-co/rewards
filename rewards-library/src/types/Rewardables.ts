@@ -21,8 +21,8 @@ export interface Rewardable {
   userId: string;
 }
 
-export interface BetMade extends Rewardable {
-  type: 'betMade';
+export interface BetExecuted extends Rewardable {
+  type: 'betExecuted';
 
   betType: BetType;
 
@@ -56,8 +56,8 @@ export interface BetMade extends Rewardable {
   bets: SingleBet[];
 }
 
-export interface BetExecuted extends Rewardable {
-  type: 'betExecuted';
+export interface BetMade extends Rewardable {
+  type: 'betMade';
 
   betType: BetType;
 
