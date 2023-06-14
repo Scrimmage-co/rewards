@@ -1,4 +1,4 @@
-export type BetOutcome = 'win' | 'lose' | 'push' | 'cashout' | 'postponed' | 'live';
+export type BetOutcome = 'win' | 'lose' | 'push' | 'cashout' | 'postponed';
 export type BetType = 'single' | 'parlays';
 export type SingleBetType = 'over' | 'under' | 'spread' | 'moneyline' | 'prop';
 export type BetLeague = string;
@@ -21,8 +21,8 @@ export interface Rewardable {
   userId: string;
 }
 
-export interface Bet extends Rewardable {
-  type: 'bet';
+export interface BetMade extends Rewardable {
+  type: 'betMade';
 
   betType: BetType;
 
@@ -54,8 +54,31 @@ export interface Bet extends Rewardable {
   betDate: number;
 
   bets: SingleBet[];
+}
 
-  isLive?: boolean;
+export interface BetExecuted extends Rewardable {
+  type: 'betExecuted';
+
+  betType: BetType;
+
+  /**
+   * @description decimal odds
+   */
+  odds: number;
+
+  description: string;
+
+  /**
+   * @description convert everything in dollars. In cents
+   */
+  wagerAmount: number;
+
+  /**
+   * @description UNIX
+   */
+  betDate: number;
+
+  bets: SingleBet[];
 }
 
 export interface SingleBet {
