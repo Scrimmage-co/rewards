@@ -1,5 +1,5 @@
 {
-  "name": "scrimmage-rewards",
+  "name": "@scrimmage/rewards",
   "version": "0.3.3",
   "description": "Simple WEB3 rewards for your app or website",
   "main": "dist/index.js",
