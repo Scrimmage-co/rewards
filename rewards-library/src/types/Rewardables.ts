@@ -48,6 +48,8 @@ export interface BetExecuted extends Rewardable {
    */
   outcome: BetOutcome;
 
+  isLive: boolean;
+
   /**
    * @description UNIX
    */
@@ -72,6 +74,8 @@ export interface BetMade extends Rewardable {
    * @description convert everything in dollars. In cents
    */
   wagerAmount: number;
+
+  isLive: boolean;
 
   /**
    * @description UNIX

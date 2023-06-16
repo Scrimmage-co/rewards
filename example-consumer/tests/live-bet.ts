@@ -1,25 +1,50 @@
-import Scrimmage, { Bet, BetLeague, BetOutcome, BetSport, BetType, SingleBet, SingleBetType } from 'scrimmage-rewards';
+import Scrimmage, { BetLeague, BetOutcome, BetSport, BetType, SingleBet, SingleBetType } from '@scrimmage/rewards';
+import { BetExecuted, BetMade } from "@scrimmage/rewards";
 
 const init = () => {
   Scrimmage.initRewarder({
     privateKeys: [
       {
-        alias: 'coinflip',
-        value: 'AYeqBMEEeewDZM1rng_nIwXyKRJT0xjmuSNzFAxK2loAy9FLZoqSMzQJEjDdLbw-Px7fKudU',
+        alias: 'bets',
+        value: 'AYi_tAu_rdBTiRAWpSKeUpst8dVvLJqh9ludWSYeCo-KYugn5s6THeuhEjArO-TgygvpPvaI'
       }
     ],
-    apiServerEndpoint: 'https://coinflip.apps.scrimmage.co',
+    apiServerEndpoint: 'https://0fdb-106-51-73-122.ngrok-free.app',
   });
 };
 
-export const sendReward = async (data: any, uid: string) => {
-  init()
-  await Scrimmage.reward.trackRewardable<Bet>(
-    'coinflip',
-    {
+export const sendBetMade = async (data: any, uid: string) => {
+  await Scrimmage.reward.trackRewardable<BetMade>(
+    'bets',
+    <BetMade>{
       id: <string>data.id,
       userId: <string>uid,
-      type: 'bet',
+      type: 'betMade',
+      betType: <BetType>data.betType,
+      // decimal odds
+      odds: <number>data.odds,
+      description: <string>data.description,
+      // convert everything in dollars
+      wagerAmount: <number>data.wagerAmount,
+      betDate: <number>data.betDate, // UNIX
+      bets: data.bets.map((bet: SingleBet) => ({
+        type: <SingleBetType>bet.type,
+        odds: <number>bet.odds, // decimal odds
+        teamBetOn: <string>bet?.teamBetOn,
+        teamBetAgainst: <string>bet?.teamBetAgainst,
+        league: <BetLeague>bet?.league,
+        sport: <BetSport>bet?.sport,
+      })),
+    });
+};
+
+export const sendBetExecuted = async (data: any, uid: string) => {
+  await Scrimmage.reward.trackRewardable<BetExecuted>(
+    'bets',
+    <BetExecuted>{
+      id: <string>data.id,
+      userId: <string>uid,
+      type: 'betExecuted',
       betType: <BetType>data.betType,
       // decimal odds
       odds: <number>data.odds,
@@ -47,9 +72,10 @@ function generateRandomId() {
 
 //Start execution and wait till the termination signal is received from the terminal
 (async () => {
+  init()
   const id = generateRandomId()
   console.log('Sending rewards for live bets')
-  sendReward({
+  sendBetMade({
     id: id,
     betType: 'single',
     odds: 1.5,
@@ -68,10 +94,10 @@ function generateRandomId() {
         sport: 'Football',
       },
     ],
-  }, '1')
+  }, 'nezuko')
 
   setTimeout(() => {
-    sendReward({
+    sendBetMade({
       id: id,
       betType: 'single',
       odds: 1.3,
@@ -90,11 +116,11 @@ function generateRandomId() {
           sport: 'Football',
         },
       ],
-    }, '1')
+    }, 'nezuko')
   }, 1000)
 
   setTimeout(() => {
-    sendReward({
+    sendBetExecuted({
       id: id,
       betType: 'single',
       odds: 1.6,
@@ -113,7 +139,7 @@ function generateRandomId() {
           sport: 'Football',
         },
       ],
-    }, '1')
+    }, 'nezuko')
   }, 2000)
 })();
 

@@ -1,25 +1,25 @@
-import Scrimmage, { Bet, BetLeague, BetOutcome, BetSport, BetType, SingleBet, SingleBetType } from 'scrimmage-rewards';
+import Scrimmage, { BetExecuted, BetLeague, BetOutcome, BetSport, BetType, SingleBet, SingleBetType } from '@scrimmage/rewards';
 
 const init = () => {
   Scrimmage.initRewarder({
     privateKeys: [
       {
-        alias: 'coinflip',
-        value: 'AYeqBMEEeewDZM1rng_nIwXyKRJT0xjmuSNzFAxK2loAy9FLZoqSMzQJEjDdLbw-Px7fKudU'
+        alias: 'bets',
+        value: 'AYi_tAu_rdBTiRAWpSKeUpst8dVvLJqh9ludWSYeCo-KYugn5s6THeuhEjArO-TgygvpPvaI'
       }
     ],
-    apiServerEndpoint: 'https://coinflip.apps.scrimmage.co',
+    apiServerEndpoint: 'https://0fdb-106-51-73-122.ngrok-free.app',
   });
 };
 
 export const sendReward = async (data: any, uid: string) => {
   init()
-  await Scrimmage.reward.trackRewardable<Bet>(
-    'coinflip',
+  await Scrimmage.reward.trackRewardable<BetExecuted>(
+    'bets',
     {
       id: <string>data.id,
       userId: <string>uid,
-      type: 'bet',
+      type: 'betExecuted',
       betType: <BetType>data.betType,
       // decimal odds
       odds: <number>data.odds,
@@ -67,6 +67,6 @@ function generateRandomId() {
         sport: 'Football',
       },
     ],
-  }, '1')
+  }, 'nezuko')
 })();
 
