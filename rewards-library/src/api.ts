@@ -76,6 +76,33 @@ const levelUp = (itemId: number, token: string): Promise<any> => {
     .then((response) => response.data);
 };
 
+const acceptQuest = (questId: number, token: string): Promise<any> => {
+  return axios
+    .post(
+      `${Config.getServiceUrl('p2e')}/players/@me/quests/${questId}/accept`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    )
+    .then((response) => response.data);
+};
+
+const getQuests = (token: string): Promise<any> => {
+  return axios
+    .get(
+      `${Config.getServiceUrl('p2e')}/players/@me/quests`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    )
+    .then((response) => response.data);
+};
+
 const getResources = (
   userId: string,
   token: string,
@@ -89,12 +116,21 @@ const getResources = (
     .then((response) => response.data);
 };
 
+const getScrimRate = (): Promise<any> => {
+  return axios
+    .get(`${Config.getServiceUrl('p2e')}/rate`)
+    .then((response) => response.data);
+};
+
 const API = {
   createIntegrationReward,
   getAllIntegrationUsers,
   getUserToken,
   levelUp,
   getResources,
+  acceptQuest,
+  getQuests,
+  getScrimRate,
 };
 
 export default API;
