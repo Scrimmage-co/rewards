@@ -1,12 +1,11 @@
-import { Rewardable } from './types/Rewardables';
 import API from './api';
+import { Rewardable } from '@scrimmage/schemas';
 
 const trackRewardable = async <T extends Rewardable = Rewardable>(
-  privateKeyAlias: string,
   ...rewardable: T[]
 ) => {
   for (const reward of rewardable) {
-    await API.createIntegrationReward(privateKeyAlias, reward);
+    await API.createIntegrationReward(reward);
   }
 };
 

@@ -1,26 +1,30 @@
-import Scrimmage, { BetExecuted, BetLeague, BetOutcome, BetSport, BetType, SingleBet, SingleBetType } from '@scrimmage/rewards';
+import Scrimmage from '@scrimmage/rewards';
+import {
+  BetExecuted,
+  BetLeague,
+  BetOutcome,
+  BetSport,
+  BetType,
+  SingleBet,
+  SingleBetType
+} from "@scrimmage/schemas";
 
 const init = () => {
   Scrimmage.initRewarder({
-    privateKeys: [
-      {
-        alias: 'bets',
-        value: 'AYi_tAu_rdBTiRAWpSKeUpst8dVvLJqh9ludWSYeCo-KYugn5s6THeuhEjArO-TgygvpPvaI'
-      }
-    ],
-    apiServerEndpoint: 'https://0fdb-106-51-73-122.ngrok-free.app',
+    privateKey: 'AYlApDiXbu_hZzr_J0LUt-HZSvDOywNVxnJaBXJkpwd6ZMxCRfeXVV918-kQBlTlkHBOq8TY',
+    apiServerEndpoint: 'https://02b4-106-51-73-122.ngrok-free.app',
   });
 };
 
 export const sendReward = async (data: any, uid: string) => {
   init()
   await Scrimmage.reward.trackRewardable<BetExecuted>(
-    'bets',
     {
       id: <string>data.id,
       userId: <string>uid,
       type: 'betExecuted',
       betType: <BetType>data.betType,
+      isLive: false,
       // decimal odds
       odds: <number>data.odds,
       description: <string>data.description,
@@ -51,8 +55,8 @@ function generateRandomId() {
   sendReward({
     id: generateRandomId(),
     betType: 'single',
-    odds: 1.5,
-    description: 'Bet description',
+    odds: 1.6,
+    description: 'Bet description 2',
     wagerAmount: 200,
     netProfit: 100,
     outcome: 'win',
@@ -60,13 +64,13 @@ function generateRandomId() {
     bets: [
       {
         type: 'under',
-        odds: 1.5,
+        odds: 1.6,
         teamBetOn: 'Team A',
         teamBetAgainst: 'Team B',
         league: 'NCAAF',
         sport: 'Football',
       },
     ],
-  }, 'nezuko')
+  }, 'naruto')
 })();
 

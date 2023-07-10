@@ -1,14 +1,12 @@
-import { Rewardable } from './types/Rewardables';
 import Config from './config';
 import axios, { HttpStatusCode, AxiosError } from 'axios';
 import { AccountNotLinkedException } from './exceptions/AccountNotLinked.exception';
-import { GetUserResourcesResponse } from './types/Resources';
+import { IIntegrationUserDTO, Rewardable } from '@scrimmage/schemas';
 
 const createIntegrationReward = <T extends Rewardable = Rewardable>(
-  privateKeyAlias: string,
   reward: T,
 ): Promise<any> => {
-  const privateKey = Config.getPrivateKeyOrThrow(privateKeyAlias);
+  const privateKey = Config.getPrivateKeyOrThrow();
   const serviceUrl = Config.getServiceUrl('api');
 
   return axios
@@ -32,8 +30,8 @@ const createIntegrationReward = <T extends Rewardable = Rewardable>(
     });
 };
 
-const getAllIntegrationUsers = (privateKeyAlias: string): Promise<any> => {
-  const privateKey = Config.getPrivateKeyOrThrow(privateKeyAlias);
+const getAllIntegrationUsers = (): Promise<IIntegrationUserDTO[]> => {
+  const privateKey = Config.getPrivateKeyOrThrow();
   const serviceUrl = Config.getServiceUrl('api');
 
   return axios
@@ -45,56 +43,29 @@ const getAllIntegrationUsers = (privateKeyAlias: string): Promise<any> => {
     .then((response) => response.data);
 };
 
-const getUserToken = (
-  userId: string,
-  privateKeyAliases: string[],
-): Promise<string> => {
-  const privateKeys = privateKeyAliases.map((alias) =>
-    Config.getPrivateKeyOrThrow(alias),
-  );
+const getUserToken = (userId: string): Promise<string> => {
+  const privateKey = Config.getPrivateKeyOrThrow();
   const serviceUrl = Config.getServiceUrl('api');
 
   return axios
-    .post(`${serviceUrl}/integrations/users`, {
-      id: userId,
-      rewarderKeys: privateKeys,
-    })
-    .then((response) => response.data.token);
-};
-
-const levelUp = (itemId: number, token: string): Promise<any> => {
-  return axios
-    .patch(
-      `${Config.getServiceUrl('p2e')}/items/${itemId}/level-up`,
-      {},
+    .post(
+      `${serviceUrl}/integrations/users`,
+      {
+        id: userId,
+      },
       {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Token ${privateKey}`,
         },
       },
     )
-    .then((response) => response.data);
-};
-
-const getResources = (
-  userId: string,
-  token: string,
-): Promise<GetUserResourcesResponse> => {
-  return axios
-    .get(`${Config.getServiceUrl('p2e')}/resources/`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((response) => response.data);
+    .then((response) => response.data.token);
 };
 
 const API = {
   createIntegrationReward,
   getAllIntegrationUsers,
   getUserToken,
-  levelUp,
-  getResources,
 };
 
 export default API;

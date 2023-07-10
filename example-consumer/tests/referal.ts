@@ -1,21 +1,15 @@
-import Scrimmage, { BetExecuted, BetLeague, BetOutcome, BetSport, BetType, SingleBet, SingleBetType } from '@scrimmage/rewards';
+import Scrimmage from '@scrimmage/rewards';
 
 const init = () => {
   Scrimmage.initRewarder({
-    privateKeys: [
-      {
-        alias: 'bets',
-        value: 'AYi_tAu_rdBTiRAWpSKeUpst8dVvLJqh9ludWSYeCo-KYugn5s6THeuhEjArO-TgygvpPvaI'
-      }
-    ],
-    apiServerEndpoint: 'https://0fdb-106-51-73-122.ngrok-free.app',
+    privateKey: 'AYlApDiXbu_hZzr_J0LUt-HZSvDOywNVxnJaBXJkpwd6ZMxCRfeXVV918-kQBlTlkHBOq8TY',
+    apiServerEndpoint: 'https://02b4-106-51-73-122.ngrok-free.app',
   });
 };
 
 export const sendReward = async (data: any, uid: string) => {
   init()
   await Scrimmage.reward.trackRewardable(
-    'bets',
     {
       id: <string>data.id,
       type: 'referal',
@@ -30,6 +24,6 @@ function generateRandomId() {
 //Start execution and wait till the termination signal is received from the terminal
 (async () => {
   console.log('Sending rewards for referal')
-  sendReward({ id: generateRandomId() }, 'nezuko')
+  sendReward({ id: generateRandomId() }, 'naruto')
 })();
 

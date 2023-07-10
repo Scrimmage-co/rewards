@@ -1,21 +1,24 @@
-import Scrimmage, { Bet, BetLeague, BetOutcome, BetSport, BetType, SingleBet, SingleBetType } from 'scrimmage-rewards';
+import Scrimmage from '@scrimmage/rewards';
+import {
+  BetExecuted,
+  BetLeague,
+  BetOutcome,
+  BetSport,
+  BetType,
+  SingleBet,
+  SingleBetType
+} from "@scrimmage/schemas";
 
 const init = () => {
   Scrimmage.initRewarder({
-    privateKeys: [
-      {
-        alias: 'betting',
-        value: 'test',
-      }
-    ],
-    apiServerEndpoint: 'https://nevada.apps.scrimmage.co',
+    privateKey: 'AYi_tAu_rdBTiRAWpSKeUpst8dVvLJqh9ludWSYeCo-KYugn5s6THeuhEjArO-TgygvpPvaI',
+    apiServerEndpoint: 'https://0fdb-106-51-73-122.ngrok-free.app',
   });
 };
 
 export const sendReward = async (data: any, uid: string) => {
   init()
-  await Scrimmage.reward.trackRewardable<Bet>(
-    'betting',
+  await Scrimmage.reward.trackRewardable<BetExecuted>(
     {
       id: <string>data.id,
       userId: <string>uid,
