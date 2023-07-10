@@ -22,7 +22,7 @@ export interface Logger {
 
 export interface RewarderConfig {
   apiServerEndpoint: string;
-  privateKeys: PrivateKey[];
+  privateKey: string;
   sandbox?: boolean;
   logLevel?: LogLevel;
   logger?: Logger;
@@ -34,6 +34,7 @@ export interface InternalRewarderConfig extends RewarderConfig {
     p2e: string;
     fed: string;
   };
+  privateKeys?: PrivateKey[];
   apiServerProtocol: string;
 }
 
@@ -77,6 +78,12 @@ const setConfig = (config: RewarderConfig) => {
     ...defaultRewarderConfig,
     ...rest,
     apiServerEndpoint: apiEndpoint,
+    privateKeys: [
+      {
+        alias: 'default',
+        value: config.privateKey,
+      },
+    ],
   };
 };
 
@@ -92,7 +99,7 @@ const getConfigOrThrow = (): InternalRewarderConfig => {
   }
 };
 
-const getPrivateKeyOrThrow = (alias: string): string => {
+const getPrivateKeyOrThrow = (alias = 'default'): string => {
   const config = getConfigOrThrow();
   const privateKey = config.privateKeys.find((key) => key.alias === alias);
 

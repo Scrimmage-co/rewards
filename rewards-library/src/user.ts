@@ -1,36 +1,17 @@
-import { RewardUser } from './types/RewardUser';
 import API from './api';
-import { GetUserResourcesResponse } from './types/Resources';
+import { IIntegrationUserDTO } from '@scrimmage/schemas';
 
-const getAllForRewarder = async (
-  privateKeyAlias: string,
-): Promise<RewardUser> => {
-  return API.getAllIntegrationUsers(privateKeyAlias);
+const getAllForRewarder = async (): Promise<IIntegrationUserDTO[]> => {
+  return API.getAllIntegrationUsers();
 };
 
-const getUserToken = async (
-  userId: string,
-  privateKeyAliases: string[],
-): Promise<string> => {
-  return API.getUserToken(userId, privateKeyAliases);
-};
-
-const levelUp = async (itemId: number, token: string): Promise<any> => {
-  return API.levelUp(itemId, token);
-};
-
-const getResources = async (
-  userId: string,
-  token: string,
-): Promise<GetUserResourcesResponse> => {
-  return API.getResources(userId, token);
+const getUserToken = async (userId: string): Promise<string> => {
+  return API.getUserToken(userId);
 };
 
 const User = {
   getAllForRewarder,
   getUserToken,
-  levelUp,
-  getResources,
 };
 
 export default User;

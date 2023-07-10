@@ -1,21 +1,24 @@
-import Scrimmage, { BetLeague, BetOutcome, BetSport, BetType, SingleBet, SingleBetType } from '@scrimmage/rewards';
-import { BetExecuted, BetMade } from "@scrimmage/rewards";
+import Scrimmage from '@scrimmage/rewards';
+import {
+  BetExecuted,
+  BetLeague,
+  BetMade,
+  BetOutcome,
+  BetSport,
+  BetType,
+  SingleBet,
+  SingleBetType
+} from "@scrimmage/schemas";
 
 const init = () => {
   Scrimmage.initRewarder({
-    privateKeys: [
-      {
-        alias: 'bets',
-        value: 'AYi_tAu_rdBTiRAWpSKeUpst8dVvLJqh9ludWSYeCo-KYugn5s6THeuhEjArO-TgygvpPvaI'
-      }
-    ],
-    apiServerEndpoint: 'https://0fdb-106-51-73-122.ngrok-free.app',
+    privateKey: 'AYlApDiXbu_hZzr_J0LUt-HZSvDOywNVxnJaBXJkpwd6ZMxCRfeXVV918-kQBlTlkHBOq8TY',
+    apiServerEndpoint: 'https://02b4-106-51-73-122.ngrok-free.app',
   });
 };
 
 export const sendBetMade = async (data: any, uid: string) => {
   await Scrimmage.reward.trackRewardable<BetMade>(
-    'bets',
     <BetMade>{
       id: <string>data.id,
       userId: <string>uid,
@@ -40,7 +43,6 @@ export const sendBetMade = async (data: any, uid: string) => {
 
 export const sendBetExecuted = async (data: any, uid: string) => {
   await Scrimmage.reward.trackRewardable<BetExecuted>(
-    'bets',
     <BetExecuted>{
       id: <string>data.id,
       userId: <string>uid,
