@@ -43,7 +43,7 @@ const getAllIntegrationUsers = (): Promise<IIntegrationUserDTO[]> => {
     .then((response) => response.data);
 };
 
-const getUserToken = (userId: string): Promise<string> => {
+const getUserToken = (userId: string, tags: string[]): Promise<string> => {
   const privateKey = Config.getPrivateKeyOrThrow();
   const serviceUrl = Config.getServiceUrl('api');
 
@@ -52,6 +52,7 @@ const getUserToken = (userId: string): Promise<string> => {
       `${serviceUrl}/integrations/users`,
       {
         id: userId,
+        tags,
       },
       {
         headers: {
