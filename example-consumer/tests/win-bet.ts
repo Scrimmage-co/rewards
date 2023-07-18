@@ -12,12 +12,11 @@ import {
 const init = () => {
   Scrimmage.initRewarder({
     privateKey: 'AYlApDiXbu_hZzr_J0LUt-HZSvDOywNVxnJaBXJkpwd6ZMxCRfeXVV918-kQBlTlkHBOq8TY',
-    apiServerEndpoint: 'https://02b4-106-51-73-122.ngrok-free.app',
+    apiServerEndpoint: 'https://3e46-156-146-54-120.ngrok-free.app',
   });
 };
 
 export const sendReward = async (data: any, uid: string) => {
-  init()
   await Scrimmage.reward.trackRewardable<BetExecuted>(
     {
       id: <string>data.id,
@@ -52,6 +51,8 @@ function generateRandomId() {
 //Start execution and wait till the termination signal is received from the terminal
 (async () => {
   console.log('Sending rewards for won bets')
+  init()
+  await Scrimmage.user.getUserToken('naruto', ['premium'])
   sendReward({
     id: generateRandomId(),
     betType: 'single',
@@ -60,6 +61,26 @@ function generateRandomId() {
     wagerAmount: 200,
     netProfit: 100,
     outcome: 'win',
+    betDate: Date.now(),
+    bets: [
+      {
+        type: 'under',
+        odds: 1.6,
+        teamBetOn: 'Team A',
+        teamBetAgainst: 'Team B',
+        league: 'NCAAF',
+        sport: 'Football',
+      },
+    ],
+  }, 'naruto')
+  sendReward({
+    id: generateRandomId(),
+    betType: 'single',
+    odds: 1.6,
+    description: 'Bet description 2',
+    wagerAmount: 200,
+    netProfit: 100,
+    outcome: 'lose',
     betDate: Date.now(),
     bets: [
       {
