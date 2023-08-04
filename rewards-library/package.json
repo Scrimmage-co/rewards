@@ -10,6 +10,7 @@
   "scripts": {
     "test": "echo No tests yet!",
     "build": "tsc",
+    "build:watch": "tsc --watch",
     "publish-lib": "npm run build && npm publish",
     "publish-beta": "npm run build && npm publish --tag beta",
     "publish-dryrun": "npm run build && npm publish --dry-run",
