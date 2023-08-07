@@ -11,31 +11,31 @@ const logLevelOrder: Record<LogLevel, number> = {
 };
 
 const logger: Record<LogLevel, typeof console.log> = {
-  log: (...args) => {
+  log: (...args: any[]) => {
     const config = Config.getConfigOrThrow();
     if (logLevelOrder[config.logLevel] <= logLevelOrder.log) {
       config.logger.log(...args);
     }
   },
-  warn: (...args) => {
+  warn: (...args: any[]) => {
     const config = Config.getConfigOrThrow();
     if (logLevelOrder[config.logLevel] <= logLevelOrder.warn) {
       config.logger.warn(...args);
     }
   },
-  debug: (...args) => {
+  debug: (...args: any[]) => {
     const config = Config.getConfigOrThrow();
     if (logLevelOrder[config.logLevel] <= logLevelOrder.debug) {
       config.logger.debug(...args);
     }
   },
-  info: (...args) => {
+  info: (...args: any[]) => {
     const config = Config.getConfigOrThrow();
     if (logLevelOrder[config.logLevel] <= logLevelOrder.info) {
       config.logger.info(...args);
     }
   },
-  error: (...args) => {
+  error: (...args: any[]) => {
     const config = Config.getConfigOrThrow();
     if (logLevelOrder[config.logLevel] <= logLevelOrder.error) {
       config.logger.error(...args);

@@ -1,6 +1,6 @@
 {
   "name": "@scrimmage/rewards",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Simple WEB3 rewards for your app or website",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -10,6 +10,7 @@
   "scripts": {
     "test": "echo No tests yet!",
     "build": "tsc",
+    "build:watch": "tsc --watch",
     "publish-lib": "npm run build && npm publish",
     "publish-beta": "npm run build && npm publish --tag beta",
     "publish-dryrun": "npm run build && npm publish --dry-run",

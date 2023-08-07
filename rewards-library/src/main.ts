@@ -2,11 +2,13 @@ import logger from './logger';
 import Config, { RewarderConfig } from './config';
 import User from './user';
 import Reward from './reward';
+import Service from './service';
 
-const initRewarder = (config: RewarderConfig) => {
+const initRewarder = async (config: RewarderConfig) => {
   Config.setConfig(config);
 
-  // TODO: verify rewarderID and private key by making call on backend
+  await Service.verify();
+
   logger.log('Rewarder Initiated');
 };
 

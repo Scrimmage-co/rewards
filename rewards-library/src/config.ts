@@ -26,16 +26,17 @@ export interface RewarderConfig {
   sandbox?: boolean;
   logLevel?: LogLevel;
   logger?: Logger;
+  secure?: boolean;
+  validateApiServerEndpoint?: boolean;
 }
 
+export const RewardServices = ['api', 'p2e', 'fed', 'nbc'] as const;
+
+export type RewardService = (typeof RewardServices)[number];
+
 export interface InternalRewarderConfig extends RewarderConfig {
-  services: {
-    api: string;
-    p2e: string;
-    fed: string;
-  };
+  services: Record<RewardService, string>;
   privateKeys?: PrivateKey[];
-  apiServerProtocol: string;
 }
 
 /**
@@ -55,9 +56,11 @@ const defaultRewarderConfig: DefaultRewarderConfig = {
     api: 'api',
     p2e: 'p2e',
     fed: 'fed',
+    nbc: 'nbc',
   },
-  apiServerProtocol: 'https',
   logger: console,
+  secure: true,
+  validateApiServerEndpoint: true,
 };
 
 let rewarderConfig: InternalRewarderConfig;
@@ -67,9 +70,7 @@ const setConfig = (config: RewarderConfig) => {
   if (!apiServerEndpoint) {
     throw new Error('apiServerEndpoint is required');
   }
-  if (!apiServerEndpoint.startsWith('https://')) {
-    throw new Error('apiServerEndpoint must start with https://');
-  }
+  validateProtocol(apiServerEndpoint, config.secure);
   const apiEndpoint = apiServerEndpoint.endsWith('/')
     ? apiServerEndpoint.slice(0, -1)
     : apiServerEndpoint;
@@ -110,12 +111,17 @@ const getPrivateKeyOrThrow = (alias = 'default'): string => {
   return privateKey.value;
 };
 
-const getServiceUrl = (
-  service: keyof DefaultRewarderConfig['services'],
-): string => {
+const getServiceUrl = (service: RewardService): string => {
   const config = getConfigOrThrow();
 
   return `${config.apiServerEndpoint}/${service}`;
+};
+
+const validateProtocol = (url: string, secure: boolean) => {
+  const protocolRegex = secure ? /^https:\/\/.+/ : /^https?:\/\/.+/;
+  if (!protocolRegex.test(url)) {
+    throw new Error(`Service URL must start with http${secure ? 's' : ''}://`);
+  }
 };
 
 const Config = {
