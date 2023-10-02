@@ -8,6 +8,7 @@ const createIntegrationReward = async <T extends Rewardable = Rewardable>(
 ): Promise<any> => {
   const privateKey = Config.getPrivateKeyOrThrow();
   const serviceUrl = Config.getServiceUrl('api');
+  const namespace = Config.getNamespaceOrThrow();
 
   try {
     const response = await axios.post(
@@ -18,6 +19,7 @@ const createIntegrationReward = async <T extends Rewardable = Rewardable>(
       {
         headers: {
           Authorization: `Token ${privateKey}`,
+          'Scrimmage-Namespace': namespace,
         },
       },
     );
@@ -33,10 +35,12 @@ const createIntegrationReward = async <T extends Rewardable = Rewardable>(
 const getAllIntegrationUsers = async (): Promise<IIntegrationUserDTO[]> => {
   const privateKey = Config.getPrivateKeyOrThrow();
   const serviceUrl = Config.getServiceUrl('api');
+  const namespace = Config.getNamespaceOrThrow();
 
   const response = await axios.get(`${serviceUrl}/integrations/users`, {
     headers: {
       Authorization: `Token ${privateKey}`,
+      'Scrimmage-Namespace': namespace,
     },
   });
   return response.data;
@@ -48,6 +52,7 @@ const getUserToken = async (
 ): Promise<string> => {
   const privateKey = Config.getPrivateKeyOrThrow();
   const serviceUrl = Config.getServiceUrl('api');
+  const namespace = Config.getNamespaceOrThrow();
 
   const response = await axios.post(
     `${serviceUrl}/integrations/users`,
@@ -58,6 +63,7 @@ const getUserToken = async (
     {
       headers: {
         Authorization: `Token ${privateKey}`,
+        'Scrimmage-Namespace': namespace,
       },
     },
   );
@@ -78,12 +84,14 @@ const getOverallServiceStatus = async (): Promise<any> => {
 
 const getIntegrationDetails = async (): Promise<any> => {
   const privateKey = Config.getPrivateKeyOrThrow();
+  const namespace = Config.getNamespaceOrThrow();
 
   const response = await axios.get(
     `${Config.getServiceUrl('api')}/integrations/details`,
     {
       headers: {
         Authorization: `Token ${privateKey}`,
+        'Scrimmage-Namespace': namespace,
       },
     },
   );

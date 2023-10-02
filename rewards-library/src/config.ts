@@ -23,7 +23,7 @@ export interface Logger {
 export interface RewarderConfig {
   apiServerEndpoint: string;
   privateKey: string;
-  sandbox?: boolean;
+  namespace: string;
   logLevel?: LogLevel;
   logger?: Logger;
   secure?: boolean;
@@ -50,7 +50,6 @@ type DefaultRewarderConfig = Omit<
   Partial<RewarderConfig>;
 
 const defaultRewarderConfig: DefaultRewarderConfig = {
-  sandbox: false,
   logLevel: 'debug',
   services: {
     api: 'api',
@@ -124,12 +123,19 @@ const validateProtocol = (url: string, secure: boolean) => {
   }
 };
 
+const getNamespaceOrThrow = (): string => {
+  const config = getConfigOrThrow();
+
+  return config.namespace;
+}
+
 const Config = {
   setConfig,
   getConfigOrThrow,
   isConfigured,
   getPrivateKeyOrThrow,
   getServiceUrl,
+  getNamespaceOrThrow,
 };
 
 export default Config;
