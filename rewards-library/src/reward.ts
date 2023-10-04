@@ -4,27 +4,25 @@ import { Rewardable } from '@scrimmage/schemas';
 const trackRewardable = async <T extends Rewardable = Rewardable>(
   userId: string,
   dataType: string,
-  ...rewardable: T[]
+  ...rewards: T[]
 ) => {
-  for (const reward of rewardable) {
+  for (const reward of rewards) {
     await API.createIntegrationReward(userId, dataType, reward);
   }
 };
 
-const trackRewardableWithUniqueId = async <T extends Rewardable = Rewardable>(
+const trackRewardableOnce = async <T extends Rewardable = Rewardable>(
   userId: string,
   dataType: string,
   uniqueId: string,
-  ...rewardable: T[]
+  reward: T
 ) => {
-  for (const reward of rewardable) {
-    await API.createIntegrationReward(userId, dataType, uniqueId, reward);
-  }
+  await API.createIntegrationReward(userId, dataType, uniqueId, reward);
 }
 
 const Reward = {
   trackRewardable,
-  trackRewardableWithUniqueId,
+  trackRewardableOnce,
 };
 
 export default Reward;

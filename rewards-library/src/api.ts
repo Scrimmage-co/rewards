@@ -56,8 +56,12 @@ const getAllIntegrationUsers = async (): Promise<IIntegrationUserDTO[]> => {
 
 const getUserToken = async (
   userId: string,
-  tags: string[],
+  options?: {
+    tags?: string[],
+    properties?: Record<string, any>,
+  },
 ): Promise<string> => {
+  options = options ?? {};
   const privateKey = Config.getPrivateKeyOrThrow();
   const serviceUrl = Config.getServiceUrl('api');
   const namespace = Config.getNamespaceOrThrow();
@@ -66,7 +70,8 @@ const getUserToken = async (
     `${serviceUrl}/integrations/users`,
     {
       id: userId,
-      tags,
+      tags: options?.tags ?? [],
+      properties: options?.properties ?? {},
     },
     {
       headers: {

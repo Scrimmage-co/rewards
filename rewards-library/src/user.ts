@@ -7,9 +7,12 @@ const getAllForRewarder = async (): Promise<IIntegrationUserDTO[]> => {
 
 const getUserToken = async (
   userId: string,
-  tags: string[],
+  options?: {
+    tags?: string[],
+    properties?: Record<string, any>,
+  },
 ): Promise<string> => {
-  return API.getUserToken(userId, tags);
+  return API.getUserToken(userId, options);
 };
 
 const User = {
