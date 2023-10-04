@@ -1,10 +1,6 @@
 import API from './api';
 import { IIntegrationUserDTO } from '@scrimmage/schemas';
 
-const getAllForRewarder = async (): Promise<IIntegrationUserDTO[]> => {
-  return API.getAllIntegrationUsers();
-};
-
 const getUserToken = async (
   userId: string,
   options?: {
@@ -16,7 +12,6 @@ const getUserToken = async (
 };
 
 const User = {
-  getAllForRewarder,
   getUserToken,
 };
 

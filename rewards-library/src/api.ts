@@ -6,11 +6,11 @@ import { IIntegrationUserDTO, IRewardableEventDTO, Rewardable } from '@scrimmage
 const createIntegrationReward: ScrimmageAPI['createIntegrationReward'] = async <T extends Rewardable = Rewardable>(
   userId: string,
   dataType: string,
-  uniqueIdOrReward: string | T,
+  eventIdOrReward: string | T,
   reward?: T,
 ): Promise<IRewardableEventDTO> => {
-  const uniqueId = typeof uniqueIdOrReward === 'string' ? uniqueIdOrReward : undefined;
-  const rewardable = typeof uniqueIdOrReward === 'string' ? reward : uniqueIdOrReward;
+  const eventId = typeof eventIdOrReward === 'string' ? eventIdOrReward : undefined;
+  const rewardable = typeof eventIdOrReward === 'string' ? reward : eventIdOrReward;
   const privateKey = Config.getPrivateKeyOrThrow();
   const serviceUrl = Config.getServiceUrl('api');
   const namespace = Config.getNamespaceOrThrow();
@@ -20,7 +20,7 @@ const createIntegrationReward: ScrimmageAPI['createIntegrationReward'] = async <
     const response = await httpClient.post<IRewardableEventDTO>(
       `${serviceUrl}/integrations/rewards`,
       {
-        uniqueId,
+        eventId,
         userId,
         dataType,
         body: rewardable,
@@ -39,21 +39,6 @@ const createIntegrationReward: ScrimmageAPI['createIntegrationReward'] = async <
     }
     return Promise.reject(error);
   }
-};
-
-const getAllIntegrationUsers = async (): Promise<IIntegrationUserDTO[]> => {
-  const privateKey = Config.getPrivateKeyOrThrow();
-  const serviceUrl = Config.getServiceUrl('api');
-  const namespace = Config.getNamespaceOrThrow();
-  const httpClient = Config.getHttpClientOrThrow();
-
-  const response = await httpClient.get(`${serviceUrl}/integrations/users`, {
-    headers: {
-      Authorization: `Token ${privateKey}`,
-      'Scrimmage-Namespace': namespace,
-    },
-  });
-  return response.data;
 };
 
 const getUserToken = async (
@@ -99,13 +84,13 @@ const getOverallServiceStatus = async (): Promise<any> => {
   return result.every((r) => r.status === 'fulfilled');
 };
 
-const getIntegrationDetails = async (): Promise<any> => {
+const getRewarderKeyDetails = async (): Promise<any> => {
   const privateKey = Config.getPrivateKeyOrThrow();
   const namespace = Config.getNamespaceOrThrow();
   const httpClient = Config.getHttpClientOrThrow();
 
   const response = await httpClient.get(
-    `${Config.getServiceUrl('api')}/integrations/details`,
+    `${Config.getServiceUrl('api')}/rewarders/keys/@me`,
     {
       headers: {
         Authorization: `Token ${privateKey}`,
@@ -121,20 +106,18 @@ interface ScrimmageAPI {
 
   createIntegrationReward<T extends Rewardable = Rewardable>(userId: string, dataType: string, uniqueId: string, reward?: T): Promise<IRewardableEventDTO>;
 
-  getAllIntegrationUsers: typeof getAllIntegrationUsers;
   getUserToken: typeof getUserToken;
   getServiceStatus: typeof getServiceStatus;
   getOverallServiceStatus: typeof getOverallServiceStatus;
-  getIntegrationDetails: typeof getIntegrationDetails;
+  getRewarderKeyDetails: typeof getRewarderKeyDetails;
 }
 
 const API: ScrimmageAPI = {
   createIntegrationReward,
-  getAllIntegrationUsers,
   getUserToken,
   getServiceStatus,
   getOverallServiceStatus,
-  getIntegrationDetails,
+  getRewarderKeyDetails,
 };
 
 export default API;

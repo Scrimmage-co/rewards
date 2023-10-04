@@ -1,2 +1,0 @@
-npm run test -- ./tests/live-bet.ts
-npm run test -- ./tests/win-bet.ts

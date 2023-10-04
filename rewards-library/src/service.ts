@@ -1,6 +1,7 @@
 import API from './api';
 import { ServiceUnavailableException } from './exceptions/ServiceUnavailable.exception';
 import Config from './config';
+import { InvalidRewarderKeyException } from './exceptions/InvalidRewarderKey.exception';
 
 const verify = async () => {
   if (!Config.getConfigOrThrow().validateApiServerEndpoint) {
@@ -12,6 +13,11 @@ const verify = async () => {
     throw new ServiceUnavailableException(
       Config.getConfigOrThrow().apiServerEndpoint,
     );
+  }
+  try {
+    await API.getRewarderKeyDetails();
+  } catch (e) {
+    throw new InvalidRewarderKeyException();
   }
 };
 
