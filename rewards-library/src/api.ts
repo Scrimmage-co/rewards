@@ -1,20 +1,28 @@
 import Config, { RewardService, RewardServices } from './config';
 import axios, { HttpStatusCode } from 'axios';
 import { AccountNotLinkedException } from './exceptions/AccountNotLinked.exception';
-import { IIntegrationUserDTO, Rewardable } from '@scrimmage/schemas';
+import { IIntegrationUserDTO, IRewardableEventDTO, Rewardable } from '@scrimmage/schemas';
 
-const createIntegrationReward = async <T extends Rewardable = Rewardable>(
-  reward: T,
-): Promise<any> => {
+const createIntegrationReward: ScrimmageAPI['createIntegrationReward'] = async <T extends Rewardable = Rewardable>(
+  userId: string,
+  dataType: string,
+  uniqueIdOrReward: string | T,
+  reward?: T,
+): Promise<IRewardableEventDTO> => {
+  const uniqueId = typeof uniqueIdOrReward === 'string' ? uniqueIdOrReward : undefined;
+  const rewardable = typeof uniqueIdOrReward === 'string' ? reward : uniqueIdOrReward;
   const privateKey = Config.getPrivateKeyOrThrow();
   const serviceUrl = Config.getServiceUrl('api');
   const namespace = Config.getNamespaceOrThrow();
 
   try {
-    const response = await axios.post(
+    const response = await axios.post<IRewardableEventDTO>(
       `${serviceUrl}/integrations/rewards`,
       {
-        rewardable: reward,
+        uniqueId,
+        userId,
+        dataType,
+        body: rewardable,
       },
       {
         headers: {
@@ -23,7 +31,7 @@ const createIntegrationReward = async <T extends Rewardable = Rewardable>(
         },
       },
     );
-    return await response.data;
+    return response.data;
   } catch (error) {
     if (error.response.status === HttpStatusCode.NotFound) {
       return Promise.reject(new AccountNotLinkedException(reward.userId));
@@ -98,7 +106,19 @@ const getIntegrationDetails = async (): Promise<any> => {
   return response.data;
 };
 
-const API = {
+interface ScrimmageAPI {
+  createIntegrationReward<T extends Rewardable = Rewardable>(userId: string, dataType: string, reward?: T): Promise<IRewardableEventDTO>;
+
+  createIntegrationReward<T extends Rewardable = Rewardable>(userId: string, dataType: string, uniqueId: string, reward?: T): Promise<IRewardableEventDTO>;
+
+  getAllIntegrationUsers: typeof getAllIntegrationUsers;
+  getUserToken: typeof getUserToken;
+  getServiceStatus: typeof getServiceStatus;
+  getOverallServiceStatus: typeof getOverallServiceStatus;
+  getIntegrationDetails: typeof getIntegrationDetails;
+}
+
+const API: ScrimmageAPI = {
   createIntegrationReward,
   getAllIntegrationUsers,
   getUserToken,
