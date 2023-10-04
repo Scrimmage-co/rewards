@@ -1,4 +1,5 @@
 import { LogLevel } from './logger';
+import axios, { Axios } from 'axios';
 
 export interface PrivateKey {
   /**
@@ -28,6 +29,7 @@ export interface RewarderConfig {
   logger?: Logger;
   secure?: boolean;
   validateApiServerEndpoint?: boolean;
+  httpClient?: Axios;
 }
 
 export const RewardServices = ['api', 'p2e', 'fed', 'nbc'] as const;
@@ -58,6 +60,7 @@ const defaultRewarderConfig: DefaultRewarderConfig = {
     nbc: 'nbc',
   },
   logger: console,
+  httpClient: axios,
   secure: true,
   validateApiServerEndpoint: true,
 };
@@ -129,6 +132,12 @@ const getNamespaceOrThrow = (): string => {
   return config.namespace;
 }
 
+const getHttpClientOrThrow = (): Axios => {
+  const config = getConfigOrThrow();
+
+  return config.httpClient;
+}
+
 const Config = {
   setConfig,
   getConfigOrThrow,
@@ -136,6 +145,7 @@ const Config = {
   getPrivateKeyOrThrow,
   getServiceUrl,
   getNamespaceOrThrow,
+  getHttpClientOrThrow,
 };
 
 export default Config;

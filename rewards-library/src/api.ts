@@ -1,5 +1,5 @@
 import Config, { RewardService, RewardServices } from './config';
-import axios, { HttpStatusCode } from 'axios';
+import { HttpStatusCode } from 'axios';
 import { AccountNotLinkedException } from './exceptions/AccountNotLinked.exception';
 import { IIntegrationUserDTO, IRewardableEventDTO, Rewardable } from '@scrimmage/schemas';
 
@@ -14,9 +14,10 @@ const createIntegrationReward: ScrimmageAPI['createIntegrationReward'] = async <
   const privateKey = Config.getPrivateKeyOrThrow();
   const serviceUrl = Config.getServiceUrl('api');
   const namespace = Config.getNamespaceOrThrow();
+  const httpClient = Config.getHttpClientOrThrow();
 
   try {
-    const response = await axios.post<IRewardableEventDTO>(
+    const response = await httpClient.post<IRewardableEventDTO>(
       `${serviceUrl}/integrations/rewards`,
       {
         uniqueId,
@@ -44,8 +45,9 @@ const getAllIntegrationUsers = async (): Promise<IIntegrationUserDTO[]> => {
   const privateKey = Config.getPrivateKeyOrThrow();
   const serviceUrl = Config.getServiceUrl('api');
   const namespace = Config.getNamespaceOrThrow();
+  const httpClient = Config.getHttpClientOrThrow();
 
-  const response = await axios.get(`${serviceUrl}/integrations/users`, {
+  const response = await httpClient.get(`${serviceUrl}/integrations/users`, {
     headers: {
       Authorization: `Token ${privateKey}`,
       'Scrimmage-Namespace': namespace,
@@ -65,8 +67,9 @@ const getUserToken = async (
   const privateKey = Config.getPrivateKeyOrThrow();
   const serviceUrl = Config.getServiceUrl('api');
   const namespace = Config.getNamespaceOrThrow();
+  const httpClient = Config.getHttpClientOrThrow();
 
-  const response = await axios.post(
+  const response = await httpClient.post(
     `${serviceUrl}/integrations/users`,
     {
       id: userId,
@@ -84,7 +87,8 @@ const getUserToken = async (
 };
 
 const getServiceStatus = async (service: RewardService): Promise<any> => {
-  const response = await axios.get(`${Config.getServiceUrl(service)}/system/status`);
+  const httpClient = Config.getHttpClientOrThrow();
+  const response = await httpClient.get(`${Config.getServiceUrl(service)}/system/status`);
   return response.data;
 };
 
@@ -98,8 +102,9 @@ const getOverallServiceStatus = async (): Promise<any> => {
 const getIntegrationDetails = async (): Promise<any> => {
   const privateKey = Config.getPrivateKeyOrThrow();
   const namespace = Config.getNamespaceOrThrow();
+  const httpClient = Config.getHttpClientOrThrow();
 
-  const response = await axios.get(
+  const response = await httpClient.get(
     `${Config.getServiceUrl('api')}/integrations/details`,
     {
       headers: {
