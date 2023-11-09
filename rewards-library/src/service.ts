@@ -1,23 +1,20 @@
 import API from './api';
-import { ServiceUnavailableException } from './exceptions/ServiceUnavailable.exception';
 import Config from './config';
-import { InvalidRewarderKeyException } from './exceptions/InvalidRewarderKey.exception';
 
 const verify = async () => {
-  if (!Config.getConfigOrThrow().validateApiServerEndpoint) {
+  const config = Config.getConfigOrThrow();
+  if (!config.validateApiServerEndpoint) {
     return;
   }
 
   const serviceStatus = await API.getOverallServiceStatus();
   if (!serviceStatus) {
-    throw new ServiceUnavailableException(
-      Config.getConfigOrThrow().apiServerEndpoint,
-    );
+    config.logger.error('Rewarder API is not available');
   }
   try {
     await API.getRewarderKeyDetails();
   } catch (e) {
-    throw new InvalidRewarderKeyException();
+    config.logger.error('Rewarder API key is invalid');
   }
 };
 
