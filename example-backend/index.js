@@ -5,7 +5,7 @@ const PORT = process.env.PORT || 2999;
 
 Scrimmage.initRewarder({
     apiServerEndpoint: 'https://coinflip.apps.scrimmage.co/',
-    privateKey: 'AY5hNpja5pEBy_UNTN0PBua0ZQAeJ3B9vRnY5P1TEzvKa-fNppFfNBqEAY0YULNuCUsRQokH',
+    privateKey: '',
     namespace: 'production',
 }).then(() => {
     // GET endpoint
