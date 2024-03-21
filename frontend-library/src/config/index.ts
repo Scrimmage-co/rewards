@@ -1,0 +1,3 @@
+const CONFIG_INJECT_KEY = Symbol('CONFIG_INJECT_KEY');
+
+export { CONFIG_INJECT_KEY };
