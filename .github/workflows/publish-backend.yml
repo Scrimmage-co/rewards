@@ -1,4 +1,4 @@
-name: Publish Package to npmjs
+name: Publish Scrimmage Backend JS SDK to npmjs
 
 on:
   push:
