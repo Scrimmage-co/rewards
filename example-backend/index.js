@@ -8,7 +8,6 @@ Scrimmage.initRewarder({
     privateKey: '',
     namespace: 'production',
 }).then(() => {
-    // GET endpoint
     app.get('/getusertoken', (req, res) => {
         // Example userToken, in a real scenario, this could be generated or retrieved from a database
         return Scrimmage.user.getUserToken('nanachi', ).then((userToken) => {
