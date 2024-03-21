@@ -1,5 +1,5 @@
 const express = require('express');
-const Scrimmage = require('@scrimmage/rewards')?.default;
+const Scrimmage = require('@scrimmage/rewards');
 const app = express();
 const PORT = process.env.PORT || 2999;
 
