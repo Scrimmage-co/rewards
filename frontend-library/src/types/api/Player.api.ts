@@ -13,4 +13,6 @@ export interface GetLevelProgressResponse {
 export interface LevelRequirementProgress {
   current: number;
   required: any;
+  title: string;
+  progress: number;
 }
