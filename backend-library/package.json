@@ -54,7 +54,8 @@
   },
   "dependencies": {
     "axios": "^1.5.1",
-    "@scrimmage/schemas": "^1.2.1"
+    "@scrimmage/schemas": "^1.2.1",
+    "@scrimmage/utils": "^1.0.0"
   },
   "jest": {
     "moduleFileExtensions": [
@@ -72,5 +73,11 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "exports": {
+    ".": {
+      "require": "./dist/cjs-entry.js",
+      "import": "./dist/index.js"
+    }
   }
 }

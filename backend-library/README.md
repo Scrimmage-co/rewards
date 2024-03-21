@@ -22,7 +22,7 @@ Tutorial can be found at [Scrimmage Rewards Tutorial](https://scrimmage-rewards.
 
 1. Import the library in JavaScript
    ```javascript
-   const Scrimmage = require('@scrimmage/rewards');
+   const Scrimmage = require('@scrimmage/rewards').default;
    ```
    or in TypeScript
    ```typescript

@@ -1,4 +1,4 @@
-name: Publish Package to npmjs
+name: Publish Scrimmage Backend JS SDK to npmjs
 
 on:
   push:
@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./rewards-library
+        working-directory: ./backend-library
     steps:
       - uses: actions/checkout@v3
       # Setup .npmrc file to publish to npm
