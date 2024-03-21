@@ -5,7 +5,8 @@ var inversify_1 = require("inversify");
 var GameRule_service_1 = require("./api/GameRule.service");
 var Player_service_1 = require("./api/Player.service");
 var config_1 = require("./config");
-var Components = [Player_service_1.PlayerService, GameRule_service_1.GameRuleService];
+var Http_service_1 = require("./utils/Http.service");
+var Components = [Player_service_1.PlayerService, GameRule_service_1.GameRuleService, Http_service_1.HttpService];
 var create = function (options) {
     if (!options.apiServerEndpoint) {
         throw new Error('API Server Endpoint is required');

@@ -64,21 +64,22 @@ var HttpService = /** @class */ (function () {
         this.axiosInstance = axios_1.default.create({
             timeout: 10000,
         });
-        // Exponential back-off retry delay between requests
-        (0, axios_retry_1.default)(this.axiosInstance, { retryDelay: axios_retry_1.default.exponentialDelay });
         this.axiosInstance.interceptors.response.use(function (response) { return response; }, function (error) { return __awaiter(_this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var _a, _b, _c;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
                     case 0:
-                        if (!(error.response.status === 403)) return [3 /*break*/, 2];
+                        console.error('Error in request', (_a = error === null || error === void 0 ? void 0 : error.response) === null || _a === void 0 ? void 0 : _a.status, error === null || error === void 0 ? void 0 : error.message, error === null || error === void 0 ? void 0 : error.response);
+                        if (!(((_b = error === null || error === void 0 ? void 0 : error.response) === null || _b === void 0 ? void 0 : _b.status) === 403 || ((_c = error === null || error === void 0 ? void 0 : error.response) === null || _c === void 0 ? void 0 : _c.status) === 400)) return [3 /*break*/, 2];
                         return [4 /*yield*/, this.refreshToken()];
                     case 1:
-                        _a.sent();
-                        _a.label = 2;
+                        _d.sent();
+                        _d.label = 2;
                     case 2: return [2 /*return*/, Promise.reject(error)];
                 }
             });
         }); });
+        (0, axios_retry_1.default)(this.axiosInstance, { retryDelay: axios_retry_1.default.exponentialDelay, retries: 3, retryCondition: function () { return true; } });
         this.refreshToken();
         this.axiosInstance.interceptors.request.use(function (config) {
             config.headers['authorization'] = "Bearer ".concat(_this.userToken);
@@ -110,6 +111,16 @@ var HttpService = /** @class */ (function () {
                         this.isTokenRefreshing = false;
                         return [7 /*endfinally*/];
                     case 5: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    HttpService.prototype.get = function (url) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.axiosInstance.get("\n      ".concat(this.options.apiServerEndpoint, "/").concat(url))];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });

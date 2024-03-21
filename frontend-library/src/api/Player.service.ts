@@ -34,7 +34,7 @@ export class PlayerService implements PlayerApi {
       );
 
       levelRequirementProgresses.push({
-        current: result.value || 0,
+        current: result.value[0] || 0,
         required: requirement.filter.value,
       });
     }
@@ -50,12 +50,12 @@ export class PlayerService implements PlayerApi {
     }, 0);
     const overallProgress = totalProgress / levelRequirementProgresses.length;
 
-    if (user.nextLevelConfig) {
+    if (user?.nextLevelConfig) {
       canLevelUp = overallProgress >= 1;
     }
 
     return {
-      totalProgress: overallProgress,
+      totalProgress: overallProgress || 0,
       levelRequirementProgresses,
     };
   }

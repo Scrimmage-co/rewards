@@ -1,9 +1,9 @@
 import { GameRuleApi } from '../types/api/GameRules.api';
-import { InitOptions } from '../types/InitOptions';
-import { PlayerService } from './Player.service';
+import { HttpService } from '../utils/Http.service';
+import { IGameRuleInfoDTO, IResourcesDTO } from '@scrimmage/schemas';
 export declare class GameRuleService implements GameRuleApi {
-    private options;
-    private playerService;
-    constructor(options: InitOptions, playerService: PlayerService);
-    getAll(): Promise<any[]>;
+    private httpService;
+    constructor(httpService: HttpService);
+    getAll(): Promise<IGameRuleInfoDTO[]>;
+    isUserQualified(user: IResourcesDTO, gameRule: IGameRuleInfoDTO): boolean;
 }

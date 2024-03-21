@@ -6,7 +6,7 @@ import axiosRetry from 'axios-retry';
 
 @injectable()
 export class HttpService {
-  private axiosInstance: AxiosInstance;
+  private readonly axiosInstance: AxiosInstance;
   private isTokenRefreshing: boolean = false;
   private userToken: string;
 
@@ -18,17 +18,18 @@ export class HttpService {
       timeout: 10000,
     });
 
-    axiosRetry(this.axiosInstance, { retryDelay: axiosRetry.exponentialDelay });
-
     this.axiosInstance.interceptors.response.use(
       response => response,
       async error => {
-        if (error.response.status === 403) {
+        if (error?.response?.status === 403 || error?.response?.status === 400) {
           await this.refreshToken();
         }
         return Promise.reject(error);
       },
     );
+
+    axiosRetry(this.axiosInstance, { retryDelay: axiosRetry.exponentialDelay, retries: 3, retryCondition: () => true });
+
     this.refreshToken();
 
     this.axiosInstance.interceptors.request.use(config => {
@@ -51,7 +52,8 @@ export class HttpService {
     }
   }
 
-  get(url: string) {
-    return this.axiosInstance.get(url);
+  async get(url: string) {
+    return await this.axiosInstance.get(`
+      ${this.options.apiServerEndpoint}/${url}`);
   }
 }

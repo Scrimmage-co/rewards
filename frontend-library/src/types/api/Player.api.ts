@@ -1,7 +1,7 @@
 import { IResourcesDTO } from '@scrimmage/schemas';
 
 export interface PlayerApi {
-  get(): Promise<any>;
+  get(): Promise<IResourcesDTO>;
   getLevelProgress(user: IResourcesDTO): GetLevelProgressResponse;
 }
 

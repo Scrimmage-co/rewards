@@ -1,4 +1,9 @@
-import { PlayerApi } from '../types/api/Player.api';
+import { GetLevelProgressResponse, PlayerApi } from '../types/api/Player.api';
+import { HttpService } from '../utils/Http.service';
+import { IResourcesDTO } from '@scrimmage/schemas';
 export declare class PlayerService implements PlayerApi {
-    get(): Promise<any>;
+    private httpService;
+    constructor(httpService: HttpService);
+    get(): Promise<IResourcesDTO>;
+    getLevelProgress(user: IResourcesDTO): GetLevelProgressResponse;
 }

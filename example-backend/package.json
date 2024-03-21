@@ -4,22 +4,21 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npx ts-node"
+    "test": "npx ts-node",
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@scrimmage/rewards": "file:../rewards-library",
+    "@scrimmage/rewards": "file:../backend-library",
     "@scrimmage/schemas": "*",
     "axios": "^1.4.0",
+    "express": "^4.19.1",
     "rxjs": "^7.8.1",
     "ts-node-dev": "^2.0.0"
   },
   "devDependencies": {
     "ts-node": "^10.9.1",
     "typescript": "^4.2.3"
-  },
-  "config": {
-    "file": "./tests/win-bet.ts"
   }
 }
