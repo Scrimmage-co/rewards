@@ -5,7 +5,7 @@ import {
 } from '../types/api/Player.api';
 import { inject, injectable } from 'inversify';
 import { HttpService } from '../utils/Http.service';
-import {IFilterConfigOperators, IResourcesDTO} from '@scrimmage/schemas';
+import { IFilterConfigOperators, IResourcesDTO } from '@scrimmage/schemas';
 import { ScrimLang } from '@scrimmage/utils';
 
 @injectable()
@@ -24,21 +24,20 @@ export class PlayerService implements PlayerApi {
 
     const levelRequirementProgresses: LevelRequirementProgress[] = [];
 
-    const levelUpRequirements =
-        user?.levelConfig?.levelUpRequirements || [];
+    const levelUpRequirements = user?.levelConfig?.levelUpRequirements || [];
 
     let totalProgress = 0;
     for (const requirement of levelUpRequirements) {
       const result = ScrimLang.processProperty(
-          user.stats,
-          requirement.filter,
-          requirement.path,
+        user.stats,
+        requirement.filter,
+        requirement.path,
       );
 
       const progress = this.getRequirementProgress(
-          result.value[0],
-          requirement.filter,
-          result.success,
+        result.value[0],
+        requirement.filter,
+        result.success,
       );
 
       totalProgress += Math.min(1, progress);
@@ -51,11 +50,9 @@ export class PlayerService implements PlayerApi {
       });
     }
     const overallProgress =
-        (totalProgress / levelRequirementProgresses.length) * 100;
+      (totalProgress / levelRequirementProgresses.length) * 100;
 
-    const canLevelUp = user?.nextLevelConfig
-        ? overallProgress >= 1
-        : false;
+    const canLevelUp = user?.nextLevelConfig ? overallProgress >= 1 : false;
 
     return {
       totalProgress: overallProgress || 0,
@@ -64,15 +61,15 @@ export class PlayerService implements PlayerApi {
   }
 
   private getRequirementProgress = (
-      currentValue: any,
-      filter: IFilterConfigOperators,
-      isCompleted: boolean,
+    currentValue: any,
+    filter: IFilterConfigOperators,
+    isCompleted: boolean,
   ): number => {
     switch (filter.type) {
       case 'number':
         return getNumericCurrentValue(
-            Math.floor(Number(currentValue) * 10) / 10,
-            filter,
+          Math.floor(Number(currentValue) * 10) / 10,
+          filter,
         );
       case 'boolean':
         return currentValue === filter.value ? 1 : 0;
@@ -83,8 +80,8 @@ export class PlayerService implements PlayerApi {
 }
 
 const getNumericCurrentValue = (
-    currentValue: number,
-    filter: IFilterConfigOperators,
+  currentValue: number,
+  filter: IFilterConfigOperators,
 ) => {
   const { value, operator } = filter;
   const requiredValue = Number(value);
@@ -94,8 +91,8 @@ const getNumericCurrentValue = (
       return Math.min(1, currentValue / requiredValue);
     case 'gt':
       return currentValue > requiredValue
-          ? 1
-          : Math.min(0.99, currentValue / requiredValue);
+        ? 1
+        : Math.min(0.99, currentValue / requiredValue);
     case 'eq':
       return currentValue === requiredValue ? 1 : 0;
     case 'lte':

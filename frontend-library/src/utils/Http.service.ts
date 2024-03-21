@@ -21,14 +21,21 @@ export class HttpService {
     this.axiosInstance.interceptors.response.use(
       response => response,
       async error => {
-        if (error?.response?.status === 403 || error?.response?.status === 400) {
+        if (
+          error?.response?.status === 403 ||
+          error?.response?.status === 400
+        ) {
           await this.refreshToken();
         }
         return Promise.reject(error);
       },
     );
 
-    axiosRetry(this.axiosInstance, { retryDelay: axiosRetry.exponentialDelay, retries: 3, retryCondition: () => true });
+    axiosRetry(this.axiosInstance, {
+      retryDelay: axiosRetry.exponentialDelay,
+      retries: 3,
+      retryCondition: () => true,
+    });
 
     this.refreshToken();
 
