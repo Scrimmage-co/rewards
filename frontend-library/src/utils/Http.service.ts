@@ -8,7 +8,8 @@ import axiosRetry from 'axios-retry';
 export class HttpService {
   private readonly axiosInstance: AxiosInstance;
   private isTokenRefreshing: boolean = false;
-  private userToken: string;
+  public userToken: string;
+  private onUserTokenChangeCallback: (token: string) => void;
 
   constructor(
     @inject(CONFIG_INJECT_KEY)
@@ -51,6 +52,9 @@ export class HttpService {
       this.isTokenRefreshing = true;
       try {
         this.userToken = await this.options.refreshToken();
+        if (this.onUserTokenChangeCallback) {
+          this.onUserTokenChangeCallback(this.userToken);
+        }
       } catch (err) {
         console.error('Error refreshing token', err);
       } finally {
@@ -62,5 +66,9 @@ export class HttpService {
   async get(url: string) {
     return await this.axiosInstance.get(`
       ${this.options.apiServerEndpoint}/${url}`);
+  }
+
+  onUserTokenChange(callback: (token: string) => void) {
+    this.onUserTokenChangeCallback = callback;
   }
 }

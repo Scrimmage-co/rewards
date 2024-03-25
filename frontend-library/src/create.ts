@@ -5,8 +5,14 @@ import { PlayerService } from './api/Player.service';
 import { InitOptions } from './types/InitOptions';
 import { CONFIG_INJECT_KEY } from './config';
 import { HttpService } from './utils/Http.service';
+import { WebsocketUpdates } from './api/WebsocketUpdates.service';
 
-const Components: any[] = [PlayerService, GameRuleService, HttpService];
+const Components: any[] = [
+  PlayerService,
+  GameRuleService,
+  HttpService,
+  WebsocketUpdates,
+];
 
 export const create = (options: InitOptions): Instance => {
   if (!options.apiServerEndpoint) {
@@ -30,6 +36,7 @@ export const create = (options: InitOptions): Instance => {
     api: {
       gameRules: container.get(GameRuleService),
       player: container.get(PlayerService),
+      websocketUpdates: container.get(WebsocketUpdates),
     },
   };
 };
