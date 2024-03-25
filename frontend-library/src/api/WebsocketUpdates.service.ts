@@ -41,15 +41,10 @@ export class WebsocketUpdates {
       return;
     }
 
-    // this.socket = lookup({
-    //   path: `${this.options.apiServerEndpoint}/nbc/events/socket.io`,
-    //   addTrailingSlash: false,
-    //   extraHeaders: {
-    //     Authorization: `Bearer ${this.httpService.userToken}`,
-    //   },
-    // });
-
-    this.socket = io(`${this.options.apiServerEndpoint}/nbc/events/socket.io`, {
+    this.socket = io(this.options.apiServerEndpoint, {
+      addTrailingSlash: false,
+      path: '/nbc/events/socket.io',
+      transports: ['websocket'],
       extraHeaders: {
         Authorization: `Bearer ${this.httpService.userToken}`,
       },
@@ -65,13 +60,13 @@ export class WebsocketUpdates {
     });
 
     this.socket.once('connect', () => {
-      console.log('Connected to websocket');
-
-      this.socket.on('game.events.update', bufferNext);
+      console.log('Connected to Scrimmage Rewards websocket');
     });
 
+    this.socket.on('game.events.update', bufferNext);
+
     this.socket.on('connect_error', err => {
-      console.log(`connect_error due to ${err.message}`);
+      console.log(`connect_error due to ${err}`);
     });
   }
 
