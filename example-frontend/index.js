@@ -20,3 +20,11 @@ scrimmage.api.player.get().then((player) => {
         }
     });
 });
+
+scrimmage.api.updates.on("game.events", (gameEvents) => {
+    console.log("game.events", gameEvents);
+});
+
+scrimmage.api.updates.on("refresh.events", (refreshEvents) => {
+    console.log("refresh.events", refreshEvents);
+});
