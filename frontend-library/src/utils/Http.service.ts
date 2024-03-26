@@ -3,6 +3,7 @@ import axios, { AxiosInstance } from 'axios';
 import { CONFIG_INJECT_KEY } from '../config';
 import { InitOptions } from '../types/InitOptions';
 import axiosRetry from 'axios-retry';
+import { LoggerService } from './Logger.service';
 
 @injectable()
 export class HttpService {
@@ -14,6 +15,8 @@ export class HttpService {
   constructor(
     @inject(CONFIG_INJECT_KEY)
     private options: InitOptions,
+    @inject(LoggerService)
+    private logger: LoggerService,
   ) {
     this.axiosInstance = axios.create({
       timeout: 10000,
@@ -56,7 +59,7 @@ export class HttpService {
           this.onUserTokenChangeCallback(this.userToken);
         }
       } catch (err) {
-        console.error('Error refreshing token', err);
+        this.logger.error('Error refreshing token', err);
       } finally {
         this.isTokenRefreshing = false;
       }

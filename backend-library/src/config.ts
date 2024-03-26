@@ -130,13 +130,13 @@ const getNamespaceOrThrow = (): string => {
   const config = getConfigOrThrow();
 
   return config.namespace;
-}
+};
 
 const getHttpClientOrThrow = (): Axios => {
   const config = getConfigOrThrow();
 
   return config.httpClient;
-}
+};
 
 const Config = {
   setConfig,

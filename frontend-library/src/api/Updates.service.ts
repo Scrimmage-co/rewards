@@ -1,3 +1,4 @@
+import { EventEmitter } from 'events';
 import { io, Socket } from 'socket.io-client';
 import {
   EVENT_INVALIDATION_MAPPING,
@@ -6,15 +7,16 @@ import {
 } from '@scrimmage/schemas';
 import { uniqueReducer } from '@scrimmage/utils';
 import { createBufferTime } from '../utils/utils';
-import { inject, injectable } from 'inversify';
+import { decorate, inject, injectable } from 'inversify';
 import { HttpService } from '../utils/Http.service';
 import { CONFIG_INJECT_KEY } from '../config';
 import { InitOptions } from '../types/InitOptions';
+import { LoggerService } from '../utils/Logger.service';
+
+decorate(injectable(), EventEmitter);
 
 @injectable()
-export class WebsocketUpdates {
-  private onRefreshEvents: (tags: ScrimmageBaseApiTagType[]) => void;
-  private onGameEvents: (events: GameEventType[]) => void;
+export class Updates extends EventEmitter {
   private socket: Socket;
 
   constructor(
@@ -22,22 +24,25 @@ export class WebsocketUpdates {
     private httpService: HttpService,
     @inject(CONFIG_INJECT_KEY)
     private options: InitOptions,
+    @inject(LoggerService)
+    private logger: LoggerService,
   ) {
+    super();
     this.httpService.onUserTokenChange(() => {
-      console.log('User token changed. Reconnecting to websocket');
+      this.logger.log('User token changed. Reconnecting to websocket');
       this.init();
     });
     this.init();
   }
 
   private init() {
-    console.log(
+    this.logger.log(
       'Initializing websocket connection',
       this.options,
       this.httpService.userToken,
     );
     if (!this.httpService.userToken) {
-      console.log('No token provided. Skipping socket connection.');
+      this.logger.log('No token provided. Skipping socket connection.');
       return;
     }
 
@@ -51,32 +56,22 @@ export class WebsocketUpdates {
     });
 
     const bufferNext = createBufferTime<GameEventType>(500, events => {
-      this.onGameEvents(events);
+      this.emit('game.events', events);
       const tags = events
         .flatMap(event => EVENT_INVALIDATION_MAPPING[event])
         .reduce<ScrimmageBaseApiTagType[]>(uniqueReducer, [])
         .filter(tag => Boolean(tag));
-      this.onRefreshEvents(tags);
+      this.emit('refresh.events', tags);
     });
 
     this.socket.once('connect', () => {
-      console.log('Connected to Scrimmage Rewards websocket');
+      this.logger.log('Connected to Scrimmage Rewards websocket');
     });
 
     this.socket.on('game.events.update', bufferNext);
 
     this.socket.on('connect_error', err => {
-      console.log(`connect_error due to ${err}`);
+      this.logger.log(`connect_error due to ${err}`);
     });
-  }
-
-  public subscribeOnRefreshEvents(
-    callback: (tags: ScrimmageBaseApiTagType[]) => void,
-  ) {
-    this.onRefreshEvents = callback;
-  }
-
-  public subscribeOnGameEvents(callback: (events: GameEventType[]) => void) {
-    this.onGameEvents = callback;
   }
 }

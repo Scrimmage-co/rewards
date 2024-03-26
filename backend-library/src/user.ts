@@ -4,8 +4,8 @@ import { IIntegrationUserDTO } from '@scrimmage/schemas';
 const getUserToken = async (
   userId: string,
   options?: {
-    tags?: string[],
-    properties?: Record<string, any>,
+    tags?: string[];
+    properties?: Record<string, any>;
   },
 ): Promise<string> => {
   return API.getUserToken(userId, options);

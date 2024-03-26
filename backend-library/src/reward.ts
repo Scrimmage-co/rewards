@@ -17,10 +17,10 @@ const trackRewardableOnce = async <T extends Rewardable = Rewardable>(
   userId: string,
   dataType: string,
   uniqueId: string,
-  reward: T
+  reward: T,
 ): Promise<IRewardableEventDTO> => {
   return API.createIntegrationReward(userId, dataType, uniqueId, reward);
-}
+};
 
 const Reward = {
   trackRewardable,
