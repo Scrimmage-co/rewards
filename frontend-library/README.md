@@ -10,8 +10,7 @@ import { useEffect } from "react";
 
 function App() {
   useEffect(() => {
-    window.scrimmage = require("@scrimmage/js-sdk");
-    window.scrimmage.init({
+    require("@scrimmage/js-sdk").init({
         apiServerEndpoint: 'https://<partner>.apps.scrimmage.co/',
         refreshToken: async () => {
             return '';
@@ -29,23 +28,26 @@ function App() {
 
 ```javascript
 "use client";
-import {create} from '@scrimmage/js-sdk';
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
+import { instance as Scrimmage } from '@scrimmage/js-sdk';
 
-const useScrimmage = () => {
-  const [player, setPlayer] = useState(null);
-  useEffect(() => {
-      window.scrimmage.api.player.get().then((player) => {
-          setPlayer(player);
-      });
-  }, []);
 
-  return (
-    player
-  );
+const ScrimmageComponent = () => {
+    const [player, setPlayer] = useState(null);
+    useEffect(() => {
+        Scrimmage.api.player.get().then((player) => {
+            setPlayer(player);
+        });
+    }, []);
+
+    return (
+        <p>
+            {player ? `Player Level: ${player.stats.level}` : "Loading..."}
+        </p>
+    );
 }
 
-export default useScrimmage;
+export default ScrimmageComponent;
 ```
 
 3. Use the hook in any component using Dynamic imports
@@ -54,14 +56,16 @@ export default useScrimmage;
 import dynamic from "next/dynamic";
 import { useEffect } from "react";
 
-const useScrimmage = dynamic(() => import("./ScrimmageComponent"), {
+const ScrimmageComponent = dynamic(() => import("./ScrimmageComponent"), {
   ssr: false,
 });
 
-function RewardsPage() {
-    const { player } = useScrimmage();
-    
-    ...
+export default function Home() {
+    return (
+        <main>
+            <ScrimmageComponent />
+        </main>
+    );
 }
 
 export default RewardsPage;

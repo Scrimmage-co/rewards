@@ -17,6 +17,7 @@ const Components: any[] = [
 ];
 
 export const create = (options: InitOptions): Instance => {
+  let isInitialized = false;
   if (!options.apiServerEndpoint) {
     throw new Error('API Server Endpoint is required');
   }
@@ -28,7 +29,12 @@ export const create = (options: InitOptions): Instance => {
     : options.apiServerEndpoint;
 
   const container = new Container();
-  container.bind(CONFIG_INJECT_KEY).toConstantValue(options);
+  container.bind(CONFIG_INJECT_KEY).toConstantValue({
+    ...options,
+    initialize: () => {
+      isInitialized = true;
+    }
+  });
 
   for (const provider of Components) {
     container.bind(provider).toSelf().inSingletonScope();
@@ -40,5 +46,6 @@ export const create = (options: InitOptions): Instance => {
       player: container.get(PlayerService),
       updates: container.get(Updates),
     },
+    isInitialized: isInitialized,
   };
 };

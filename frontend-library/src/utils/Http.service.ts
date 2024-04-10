@@ -41,7 +41,10 @@ export class HttpService {
       retryCondition: () => true,
     });
 
-    this.refreshToken();
+    this.refreshToken().then(() => {
+      options.onReady?.();
+      options.initialize();
+    })
 
     this.axiosInstance.interceptors.request.use(config => {
       config.headers['authorization'] = `Bearer ${this.userToken}`;
