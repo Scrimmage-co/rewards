@@ -7,6 +7,7 @@ import { CONFIG_INJECT_KEY } from './config';
 import { HttpService } from './utils/Http.service';
 import { LoggerService } from './utils/Logger.service';
 import { Updates } from './api/Updates.service';
+import { OnInstanceInit } from './types/OnInstanceInit';
 
 const Components: any[] = [
   PlayerService,
@@ -29,16 +30,16 @@ export const create = (options: InitOptions): Instance => {
     : options.apiServerEndpoint;
 
   const container = new Container();
-  container.bind(CONFIG_INJECT_KEY).toConstantValue({
-    ...options,
-    initialize: () => {
-      isInitialized = true;
-    }
-  });
+  container.bind(CONFIG_INJECT_KEY).toConstantValue(options);
 
   for (const provider of Components) {
     container.bind(provider).toSelf().inSingletonScope();
   }
+  handleInstanceInitForComponent(container, Components)
+    .then(() => {
+      options.onReady?.();
+      isInitialized = true;
+    });
   return {
     _container: container,
     api: {
@@ -49,3 +50,15 @@ export const create = (options: InitOptions): Instance => {
     isInitialized: isInitialized,
   };
 };
+
+const handleInstanceInitForComponent = async (
+  container: Container,
+  components: any[],
+) => {
+  for (const provider of components) {
+    const component = container.get<OnInstanceInit>(provider);
+    if (component.onInstanceInit) {
+      await component.onInstanceInit();
+    }
+  }
+}

@@ -8,6 +8,8 @@ export interface PlayerApi {
 export interface GetLevelProgressResponse {
   totalProgress: number;
   levelRequirementProgresses: LevelRequirementProgress[];
+  canLevelUp: boolean;
+  level: number;
 }
 
 export interface LevelRequirementProgress {

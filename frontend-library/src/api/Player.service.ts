@@ -57,6 +57,8 @@ export class PlayerService implements PlayerApi {
     return {
       totalProgress: overallProgress || 0,
       levelRequirementProgresses,
+      canLevelUp,
+      level,
     };
   }
 
