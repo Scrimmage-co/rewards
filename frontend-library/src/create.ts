@@ -47,7 +47,7 @@ export const create = (options: InitOptions): Instance => {
       player: container.get(PlayerService),
       updates: container.get(Updates),
     },
-    isInitialized: isInitialized,
+    isInitialized: () => isInitialized,
   };
 };
 
