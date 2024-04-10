@@ -3,7 +3,7 @@
 To integrate the Scrimmage SDK with a Next.js project, you can use the following code snippet:
 
 ```javascript
-    useEffect(() => {
+useEffect(() => {
     require("@scrimmage/js-sdk").init({
         apiServerEndpoint: 'https://<partner>.apps.scrimmage.co/',
         refreshToken: async () => {
