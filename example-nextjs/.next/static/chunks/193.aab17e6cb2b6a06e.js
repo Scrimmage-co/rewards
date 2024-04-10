@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[193],{193:function(e,t,l){l.r(t);var a=l(7437),n=l(2265),s=l(4674);t.default=()=>{let[e,t]=(0,n.useState)(null);return(0,n.useEffect)(()=>{s.eE.api.player.get().then(e=>{t(e)})},[]),(0,a.jsx)("p",{children:e?"Player Level: ".concat(e.stats.level):"Loading..."})}}}]);
