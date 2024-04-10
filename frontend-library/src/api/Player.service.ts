@@ -6,7 +6,7 @@ import {
 import { inject, injectable } from 'inversify';
 import { HttpService } from '../utils/Http.service';
 import { IFilterConfigOperators, IResourcesDTO } from '@scrimmage/schemas';
-import { ScrimLang } from '@scrimmage/utils';
+import { ScrimLang } from '@scrimmage/scrimlang';
 
 @injectable()
 export class PlayerService implements PlayerApi {
