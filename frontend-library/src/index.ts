@@ -9,4 +9,4 @@ const init = (options: InitOptions) => {
   instance = create(options);
 };
 
-export { init, create };
+export { init, create, instance };

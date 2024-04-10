@@ -4,9 +4,10 @@ import { CONFIG_INJECT_KEY } from '../config';
 import { InitOptions } from '../types/InitOptions';
 import axiosRetry from 'axios-retry';
 import { LoggerService } from './Logger.service';
+import { OnInstanceInit } from '../types/OnInstanceInit';
 
 @injectable()
-export class HttpService {
+export class HttpService implements OnInstanceInit {
   private readonly axiosInstance: AxiosInstance;
   private isTokenRefreshing: boolean = false;
   public userToken: string;
@@ -41,13 +42,15 @@ export class HttpService {
       retryCondition: () => true,
     });
 
-    this.refreshToken();
-
     this.axiosInstance.interceptors.request.use(config => {
       config.headers['authorization'] = `Bearer ${this.userToken}`;
       config.headers['accept'] = 'application/json';
       return config;
     });
+  }
+
+  async onInstanceInit(): Promise<void> {
+    await this.refreshToken();
   }
 
   private async refreshToken() {

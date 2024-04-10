@@ -7,6 +7,7 @@ import { CONFIG_INJECT_KEY } from './config';
 import { HttpService } from './utils/Http.service';
 import { LoggerService } from './utils/Logger.service';
 import { Updates } from './api/Updates.service';
+import { OnInstanceInit } from './types/OnInstanceInit';
 
 const Components: any[] = [
   PlayerService,
@@ -17,6 +18,7 @@ const Components: any[] = [
 ];
 
 export const create = (options: InitOptions): Instance => {
+  let isInitialized = false;
   if (!options.apiServerEndpoint) {
     throw new Error('API Server Endpoint is required');
   }
@@ -33,6 +35,11 @@ export const create = (options: InitOptions): Instance => {
   for (const provider of Components) {
     container.bind(provider).toSelf().inSingletonScope();
   }
+  handleInstanceInitForComponent(container, Components)
+    .then(() => {
+      options.onReady?.();
+      isInitialized = true;
+    });
   return {
     _container: container,
     api: {
@@ -40,5 +47,18 @@ export const create = (options: InitOptions): Instance => {
       player: container.get(PlayerService),
       updates: container.get(Updates),
     },
+    isInitialized: () => isInitialized,
   };
 };
+
+const handleInstanceInitForComponent = async (
+  container: Container,
+  components: any[],
+) => {
+  for (const provider of components) {
+    const component = container.get<OnInstanceInit>(provider);
+    if (component.onInstanceInit) {
+      await component.onInstanceInit();
+    }
+  }
+}

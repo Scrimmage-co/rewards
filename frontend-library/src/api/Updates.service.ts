@@ -5,13 +5,19 @@ import {
   GameEventType,
   ScrimmageBaseApiTagType,
 } from '@scrimmage/schemas';
-import { uniqueReducer } from '@scrimmage/utils';
 import { createBufferTime } from '../utils/utils';
 import { decorate, inject, injectable } from 'inversify';
 import { HttpService } from '../utils/Http.service';
 import { CONFIG_INJECT_KEY } from '../config';
 import { InitOptions } from '../types/InitOptions';
 import { LoggerService } from '../utils/Logger.service';
+
+const uniqueReducer = <T>(accumulator: T[], currentValue: T): T[] => {
+  if (!accumulator.includes(currentValue)) {
+    accumulator.push(currentValue);
+  }
+  return accumulator;
+};
 
 decorate(injectable(), EventEmitter);
 
