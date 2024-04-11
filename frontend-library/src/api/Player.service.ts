@@ -1,11 +1,16 @@
 import {
-  GetLevelProgressResponse,
   LevelRequirementProgress,
+  LevelRequirementProgressOptions,
+  LevelRequirementsProgressResult,
   PlayerApi,
 } from '../types/api/Player.api';
 import { inject, injectable } from 'inversify';
 import { HttpService } from '../utils/Http.service';
-import { IFilterConfigOperators, IResourcesDTO } from '@scrimmage/schemas';
+import {
+  FilterOperationValueType,
+  IFilterConfigOperators,
+  IResourcesDTO,
+} from '@scrimmage/schemas';
 import { ScrimLang } from '@scrimmage/scrimlang';
 
 @injectable()
@@ -19,62 +24,59 @@ export class PlayerService implements PlayerApi {
     return response?.data;
   }
 
-  getLevelProgress(user: IResourcesDTO): GetLevelProgressResponse {
-    const level = user.stats?.level || 1;
-
-    const levelRequirementProgresses: LevelRequirementProgress[] = [];
+  getLevelProgress(
+    user: IResourcesDTO,
+    options: LevelRequirementProgressOptions = {},
+  ): LevelRequirementsProgressResult {
+    const progress: LevelRequirementProgress[] = [];
 
     const levelUpRequirements = user?.levelConfig?.levelUpRequirements || [];
 
     let totalProgress = 0;
     for (const requirement of levelUpRequirements) {
       const result = ScrimLang.processProperty(
-        user.stats,
+        user.properties,
         requirement.filter,
-        requirement.path,
+        ScrimLang.makeInlineKey(requirement.path),
       );
 
-      const progress = this.getRequirementProgress(
-        result.value[0],
+      const requirementProgress = this.getRequirementProgress(
+        result.value,
         requirement.filter,
         result.success,
       );
 
-      totalProgress += Math.min(1, progress);
+      totalProgress += Math.min(1, requirementProgress);
 
-      levelRequirementProgresses.push({
-        current: result.value[0] || 0,
-        required: requirement.filter.value,
-        progress: progress * 100,
-        title: requirement.title || requirement.path,
+      progress.push({
+        progress: requirementProgress * 100,
+        icon: requirement.icon || options.onMissingIcon?.(requirement),
+        title: requirement.title || options.onMissingTitle?.(requirement),
+        progressLabel: getProgressLabel(result.value, requirement.filter),
       });
     }
-    const overallProgress =
-      (totalProgress / levelRequirementProgresses.length) * 100;
-
-    const canLevelUp = user?.nextLevelConfig ? overallProgress >= 100 : false;
+    const overallProgress = (totalProgress / progress.length) * 100;
 
     return {
-      totalProgress: overallProgress || 0,
-      levelRequirementProgresses,
-      canLevelUp,
-      level,
+      progress,
+      overallProgress,
+      completed: overallProgress >= 100,
     };
   }
 
   private getRequirementProgress = (
-    currentValue: any,
+    currentValues: FilterOperationValueType[],
     filter: IFilterConfigOperators,
     isCompleted: boolean,
   ): number => {
     switch (filter.type) {
       case 'number':
         return getNumericCurrentValue(
-          Math.floor(Number(currentValue) * 10) / 10,
+          Math.floor(Number(currentValues[0]) * 10) / 10,
           filter,
         );
       case 'boolean':
-        return currentValue === filter.value ? 1 : 0;
+        return currentValues[0] === filter.value ? 1 : 0;
       default:
         return isCompleted ? 1 : 0;
     }
@@ -90,8 +92,14 @@ const getNumericCurrentValue = (
 
   switch (operator) {
     case 'gte':
+      if (requiredValue === 0) {
+        return currentValue >= 0 ? 1 : 0;
+      }
       return Math.min(1, currentValue / requiredValue);
     case 'gt':
+      if (requiredValue === 0) {
+        return currentValue > 0 ? 1 : 0;
+      }
       return currentValue > requiredValue
         ? 1
         : Math.min(0.99, currentValue / requiredValue);
@@ -103,5 +111,22 @@ const getNumericCurrentValue = (
       return currentValue < requiredValue ? 1 : 0;
     default:
       return 0;
+  }
+};
+
+const getProgressLabel = (
+  currentValues: FilterOperationValueType[],
+  filter: IFilterConfigOperators,
+): string => {
+  const { value: requiredValue, type, operator } = filter;
+  const currentValue = currentValues.length ? currentValues[0] : '-';
+
+  switch (type) {
+    case 'number':
+      if (operator === 'gte') {
+        return `${currentValue}/${requiredValue}`;
+      } else {
+        return `${currentValue}`;
+      }
   }
 };

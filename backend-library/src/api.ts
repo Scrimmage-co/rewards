@@ -2,7 +2,6 @@ import Config, { RewardService, RewardServices } from './config';
 import { HttpStatusCode } from 'axios';
 import { AccountNotLinkedException } from './exceptions/AccountNotLinked.exception';
 import {
-  IIntegrationUserDTO,
   IRewardableEventDTO,
   Rewardable,
 } from '@scrimmage/schemas';

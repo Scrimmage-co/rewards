@@ -1,5 +1,4 @@
 import API from './api';
-import { IIntegrationUserDTO } from '@scrimmage/schemas';
 
 const getUserToken = async (
   userId: string,

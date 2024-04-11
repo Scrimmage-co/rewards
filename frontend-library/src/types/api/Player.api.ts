@@ -1,20 +1,24 @@
-import { IResourcesDTO } from '@scrimmage/schemas';
+import { IResourcesDTO, IStatRequirementDTO } from '@scrimmage/schemas';
 
 export interface PlayerApi {
   get(): Promise<IResourcesDTO>;
-  getLevelProgress(user: IResourcesDTO): GetLevelProgressResponse;
+  getLevelProgress(user: IResourcesDTO): LevelRequirementsProgressResult;
 }
 
-export interface GetLevelProgressResponse {
-  totalProgress: number;
-  levelRequirementProgresses: LevelRequirementProgress[];
-  canLevelUp: boolean;
-  level: number;
+export interface LevelRequirementsProgressResult {
+  progress: LevelRequirementProgress[];
+  overallProgress: number;
+  completed: boolean;
 }
 
 export interface LevelRequirementProgress {
-  current: number;
-  required: any;
+  icon: string;
   title: string;
   progress: number;
+  progressLabel: string;
+}
+
+export interface LevelRequirementProgressOptions {
+  onMissingTitle?: (requirement: IStatRequirementDTO) => string;
+  onMissingIcon?: (requirement: IStatRequirementDTO) => string;
 }

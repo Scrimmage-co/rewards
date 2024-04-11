@@ -19,7 +19,7 @@ export class GameRuleService implements GameRuleApi {
   isUserQualified(user: IResourcesDTO, gameRule: IGameRuleInfoDTO): boolean {
     return ScrimLang.checkIfRequirementsFitsObject(
       gameRule.requirements,
-      user.stats,
+      user.properties,
     );
   }
 }
