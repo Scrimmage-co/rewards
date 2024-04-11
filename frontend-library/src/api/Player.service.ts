@@ -52,7 +52,7 @@ export class PlayerService implements PlayerApi {
     const overallProgress =
       (totalProgress / levelRequirementProgresses.length) * 100;
 
-    const canLevelUp = user?.nextLevelConfig ? overallProgress >= 1 : false;
+    const canLevelUp = user?.nextLevelConfig ? overallProgress >= 100 : false;
 
     return {
       totalProgress: overallProgress || 0,
