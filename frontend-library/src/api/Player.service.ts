@@ -52,7 +52,7 @@ export class PlayerService implements PlayerApi {
         progress: requirementProgress * 100,
         icon: requirement.icon || options.onMissingIcon?.(requirement),
         title: requirement.title || options.onMissingTitle?.(requirement),
-        progressLabel: getProgressLabel(result.value, requirement.filter),
+        progressLabel: this.getProgressLabel(result.value, requirement.filter),
       });
     }
     const overallProgress = (totalProgress / progress.length) * 100;
@@ -64,14 +64,14 @@ export class PlayerService implements PlayerApi {
     };
   }
 
-  private getRequirementProgress = (
+  getRequirementProgress(
     currentValues: FilterOperationValueType[],
     filter: IFilterConfigOperators,
     isCompleted: boolean,
-  ): number => {
+  ): number {
     switch (filter.type) {
       case 'number':
-        return getNumericCurrentValue(
+        return this.getNumericCurrentValue(
           Math.floor(Number(currentValues[0]) * 10) / 10,
           filter,
         );
@@ -80,53 +80,50 @@ export class PlayerService implements PlayerApi {
       default:
         return isCompleted ? 1 : 0;
     }
-  };
+  }
+
+  getNumericCurrentValue(currentValue: number, filter: IFilterConfigOperators) {
+    const { value, operator } = filter;
+    const requiredValue = Number(value);
+
+    switch (operator) {
+      case 'gte':
+        if (requiredValue === 0) {
+          return currentValue >= 0 ? 1 : 0;
+        }
+        return Math.min(1, currentValue / requiredValue);
+      case 'gt':
+        if (requiredValue === 0) {
+          return currentValue > 0 ? 1 : 0;
+        }
+        return currentValue > requiredValue
+          ? 1
+          : Math.min(0.99, currentValue / requiredValue);
+      case 'eq':
+        return currentValue === requiredValue ? 1 : 0;
+      case 'lte':
+        return currentValue <= requiredValue ? 1 : 0;
+      case 'lt':
+        return currentValue < requiredValue ? 1 : 0;
+      default:
+        return 0;
+    }
+  }
+
+  getProgressLabel(
+    currentValues: FilterOperationValueType[],
+    filter: IFilterConfigOperators,
+  ): string {
+    const { value: requiredValue, type, operator } = filter;
+    const currentValue = currentValues.length ? currentValues[0] : '-';
+
+    switch (type) {
+      case 'number':
+        if (operator === 'gte') {
+          return `${currentValue}/${requiredValue}`;
+        } else {
+          return `${currentValue}`;
+        }
+    }
+  }
 }
-
-const getNumericCurrentValue = (
-  currentValue: number,
-  filter: IFilterConfigOperators,
-) => {
-  const { value, operator } = filter;
-  const requiredValue = Number(value);
-
-  switch (operator) {
-    case 'gte':
-      if (requiredValue === 0) {
-        return currentValue >= 0 ? 1 : 0;
-      }
-      return Math.min(1, currentValue / requiredValue);
-    case 'gt':
-      if (requiredValue === 0) {
-        return currentValue > 0 ? 1 : 0;
-      }
-      return currentValue > requiredValue
-        ? 1
-        : Math.min(0.99, currentValue / requiredValue);
-    case 'eq':
-      return currentValue === requiredValue ? 1 : 0;
-    case 'lte':
-      return currentValue <= requiredValue ? 1 : 0;
-    case 'lt':
-      return currentValue < requiredValue ? 1 : 0;
-    default:
-      return 0;
-  }
-};
-
-const getProgressLabel = (
-  currentValues: FilterOperationValueType[],
-  filter: IFilterConfigOperators,
-): string => {
-  const { value: requiredValue, type, operator } = filter;
-  const currentValue = currentValues.length ? currentValues[0] : '-';
-
-  switch (type) {
-    case 'number':
-      if (operator === 'gte') {
-        return `${currentValue}/${requiredValue}`;
-      } else {
-        return `${currentValue}`;
-      }
-  }
-};
