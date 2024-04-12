@@ -15,6 +15,29 @@ Scrimmage.initRewarder({
         });
     });
 
+    app.get('/reward', (req, res) => {
+        return Scrimmage.reward.trackRewardable('nanachi', 'helloWorld', {
+            amount: 10,
+            currency: 'USD',
+        }).then((result) => {
+            res.json(result);
+        });
+    });
+
+    app.get('/inplace/reward', async (req, res) => {
+        const scrimmage = await Scrimmage.createRewarder({
+            apiServerEndpoint: 'https://coinflip.apps.scrimmage.co/',
+            privateKey: '',
+            namespace: 'staging',
+        });
+        return scrimmage.reward.trackRewardable('nanachi', 'helloWorld', {
+            amount: 100,
+            currency: 'USD2',
+        }).then((result) => {
+            res.json(result);
+        });
+    });
+
     app.listen(PORT, () => {
         console.log(`Server running on http://localhost:${PORT}`);
     });
