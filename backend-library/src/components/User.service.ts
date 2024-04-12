@@ -6,8 +6,7 @@ export class UserService {
   constructor(
     @inject(APIService)
     private readonly API: APIService,
-  ) {
-  }
+  ) {}
 
   async getUserToken(
     userId: string,

@@ -58,7 +58,7 @@ export class ConfigService {
         },
       ],
     };
-  };
+  }
 
   isConfigured(): boolean {
     return Boolean(this.rewarderConfig);
@@ -70,7 +70,7 @@ export class ConfigService {
     } else {
       throw new Error('Rewarder not initiated');
     }
-  };
+  }
 
   getPrivateKeyOrThrow(alias = 'default'): string {
     const config = this.getConfigOrThrow();
@@ -104,7 +104,9 @@ export class ConfigService {
   validateProtocol(url: string, secure: boolean) {
     const protocolRegex = secure ? /^https:\/\/.+/ : /^https?:\/\/.+/;
     if (!protocolRegex.test(url)) {
-      throw new Error(`Service URL must start with http${secure ? 's' : ''}://`);
+      throw new Error(
+        `Service URL must start with http${secure ? 's' : ''}://`,
+      );
     }
-  };
+  }
 }

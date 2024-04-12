@@ -16,8 +16,7 @@ export class LoggerService implements ILogger {
   constructor(
     @inject(ConfigService)
     private readonly configService: ConfigService,
-  ) {
-  }
+  ) {}
 
   log(...args: any[]) {
     const config = this.configService.getConfigOrThrow();

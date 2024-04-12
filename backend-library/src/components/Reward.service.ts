@@ -7,8 +7,7 @@ export class RewardService {
   constructor(
     @inject(APIService)
     private readonly API: APIService,
-  ) {
-  }
+  ) {}
 
   async trackRewardable<T extends Rewardable = Rewardable>(
     userId: string,
@@ -17,10 +16,12 @@ export class RewardService {
   ): Promise<IRewardableEventDTO[]> {
     const results = [];
     for (const reward of rewards) {
-      results.push(await this.API.createIntegrationReward(userId, dataType, reward));
+      results.push(
+        await this.API.createIntegrationReward(userId, dataType, reward),
+      );
     }
     return results;
-  };
+  }
 
   async trackRewardableOnce<T extends Rewardable = Rewardable>(
     userId: string,
@@ -29,5 +30,5 @@ export class RewardService {
     reward: T,
   ): Promise<IRewardableEventDTO> {
     return this.API.createIntegrationReward(userId, dataType, uniqueId, reward);
-  };
+  }
 }

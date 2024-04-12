@@ -4,19 +4,19 @@ import { IRewardableEventDTO, Rewardable } from '@scrimmage/schemas';
 import { HttpStatusCode } from 'axios';
 import { AccountNotLinkedException } from '../exceptions/AccountNotLinked.exception';
 import { ConfigService } from './Config.service';
-import { ScrimmageAPIService, ScrimmageAPIServices } from '../types/ScrimmageAPIServices';
+import {
+  ScrimmageAPIService,
+  ScrimmageAPIServices,
+} from '../types/ScrimmageAPIServices';
 
 @injectable()
 export class APIService implements ScrimmageRewardsAPI {
   constructor(
     @inject(ConfigService)
     private readonly config: ConfigService,
-  ) {
-  }
+  ) {}
 
-  async createIntegrationReward<
-    T extends Rewardable = Rewardable,
-  >(
+  async createIntegrationReward<T extends Rewardable = Rewardable>(
     userId: string,
     dataType: string,
     eventIdOrReward: string | T,
@@ -84,7 +84,7 @@ export class APIService implements ScrimmageRewardsAPI {
       },
     );
     return await response.data.token;
-  };
+  }
 
   async getServiceStatus(service: ScrimmageAPIService): Promise<any> {
     const httpClient = this.config.getHttpClientOrThrow();
@@ -92,14 +92,14 @@ export class APIService implements ScrimmageRewardsAPI {
       `${this.config.getServiceUrl(service)}/system/status`,
     );
     return response.data;
-  };
+  }
 
   async getOverallServiceStatus(): Promise<any> {
     const result = await Promise.allSettled(
       ScrimmageAPIServices.map((service) => this.getServiceStatus(service)),
     );
     return result.every((r) => r.status === 'fulfilled');
-  };
+  }
 
   async getRewarderKeyDetails(): Promise<any> {
     const privateKey = this.config.getPrivateKeyOrThrow();
@@ -117,5 +117,4 @@ export class APIService implements ScrimmageRewardsAPI {
     );
     return response.data;
   }
-
 }

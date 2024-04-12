@@ -9,8 +9,7 @@ export class StatusService {
     private readonly configService: ConfigService,
     @inject(APIService)
     private readonly API: APIService,
-  ) {
-  }
+  ) {}
 
   async verify() {
     const config = this.configService.getConfigOrThrow();

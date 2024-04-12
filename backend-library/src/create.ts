@@ -34,6 +34,8 @@ export const createScrimmageInstance = async (config: RewarderConfig) => {
     user: container.get(UserService),
     reward: container.get(RewardService),
   };
-}
+};
 
-export type ScrimmageInstance = Awaited<ReturnType<typeof createScrimmageInstance>>;
+export type ScrimmageInstance = Awaited<
+  ReturnType<typeof createScrimmageInstance>
+>;
