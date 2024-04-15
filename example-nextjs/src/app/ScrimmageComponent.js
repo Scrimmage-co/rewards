@@ -1,6 +1,7 @@
 "use client";
 import {useEffect, useState} from "react";
 import { instance as Scrimmage } from '@scrimmage/js-sdk';
+import { getRequirementsProgress} from "@scrimmage/ui-toolkit";
 
 
 const ScrimmageComponent = () => {
@@ -27,7 +28,9 @@ const ScrimmageComponent = () => {
                 console.log(player);
                 setPlayer(player);
 
-                const playerProgress = await Scrimmage.api.player.getLevelProgress(player);
+                const levelUpRequirements = player.levelConfig?.levelUpRequirements ?? [];
+                const userProperties = player.properties ?? [];
+                const playerProgress = getRequirementsProgress(levelUpRequirements,userProperties);
                 console.log(playerProgress);
                 setPlayerProgress(playerProgress);
             });
