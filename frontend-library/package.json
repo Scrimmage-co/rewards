@@ -12,7 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@scrimmage/schemas": "^1.2.4",
+    "@scrimmage/schemas": "^1.3.0",
     "@scrimmage/scrimlang": "^1.0.0",
     "axios": "^1.6.8",
     "axios-retry": "^4.1.0",

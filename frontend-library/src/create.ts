@@ -35,11 +35,10 @@ export const create = (options: InitOptions): Instance => {
   for (const provider of Components) {
     container.bind(provider).toSelf().inSingletonScope();
   }
-  handleInstanceInitForComponent(container, Components)
-    .then(() => {
-      options.onReady?.();
-      isInitialized = true;
-    });
+  handleInstanceInitForComponent(container, Components).then(() => {
+    options.onReady?.();
+    isInitialized = true;
+  });
   return {
     _container: container,
     api: {
@@ -61,4 +60,4 @@ const handleInstanceInitForComponent = async (
       await component.onInstanceInit();
     }
   }
-}
+};
