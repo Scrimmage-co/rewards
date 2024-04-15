@@ -20,16 +20,16 @@ Tutorial can be found at [Scrimmage Rewards Tutorial](https://scrimmage-rewards.
 
 ## Usage on the backend
 
-1. Import the library in JavaScript
+1. Import the library in CommonJS:
    ```javascript
-   const Scrimmage = require('@scrimmage/rewards').default;
+   const Scrimmage = require('@scrimmage/rewards');
    ```
-   or in TypeScript
+   or in ES6:
    ```typescript
    import Scrimmage from '@scrimmage/rewards';
    ```
    
-2. Initialize the library
+2. Initialize the library for global usage
    ```typescript
    Scrimmage.initRewarder({
      apiServerEndpoint: '<your api server endpoint>',
@@ -84,6 +84,50 @@ Tutorial can be found at [Scrimmage Rewards Tutorial](https://scrimmage-rewards.
    ```
    
    Use this token to identify the user on the frontend. Make sure to deliver the token to the frontend securely.
+
+## Multiple connections
+
+If you want to use multiple connections, you need to create a new instance of the library.
+
+```typescript
+const rewarderForProduction = Scrimmage.createRewarder({
+  apiServer: '<your api server endpoint 1>',
+  privateKey: '<your private key 1>',
+  namespace: '<environment 1, e.g. staging or production>',
+});
+
+const rewarderForStaging = Scrimmage.createRewarder({
+  apiServer: '<your api server endpoint 2>',
+  privateKey: '<your private key 2>',
+  namespace: '<environment 2, e.g. staging or production>',
+});
+```
+
+Then you can use the two instances simultaneously.
+
+```typescript
+await rewarderForProduction.reward.trackRewardable(
+  'unique-user-id',
+  'Data Type Name',
+  {
+    'custom-property': 'custom-value',
+    'custom-property-2': {
+      'custom-property-2-1': 'custom-value-2-1',
+    },
+  },
+);
+
+await rewarderForStaging.reward.trackRewardable(
+  'unique-user-id',
+  'Data Type Name',
+  {
+    'custom-property': 'custom-value',
+    'custom-property-2': {
+      'custom-property-2-1': 'custom-value-2-1',
+    },
+  },
+);
+```
 
 ## Usage on the frontend
 
