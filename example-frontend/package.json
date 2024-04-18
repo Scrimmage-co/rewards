@@ -10,8 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ts-node": "^10.9.2",
-    "@scrimmage/js-sdk": "file:../frontend-library"
+    "@scrimmage/js-sdk": "file:../frontend-library",
+    "@scrimmage/ui-toolkit": "^0.0.2",
+    "ts-node": "^10.9.2"
   },
   "type": "module"
 }

@@ -1,4 +1,5 @@
-import {create} from "@scrimmage/js-sdk";
+import { create } from '@scrimmage/js-sdk';
+import { getRequirementsProgress } from '@scrimmage/ui-toolkit';
 
 const scrimmage = create({
     apiServerEndpoint: "https://coinflip.apps.scrimmage.co/",
@@ -12,7 +13,7 @@ scrimmage.api.player.get().then((player) => {
     const levelUpRequirements = player.levelConfig?.levelUpRequirements ?? [];
     const userProperties = player.properties ?? [];
     const playerProgress = getRequirementsProgress(levelUpRequirements,userProperties);
-    console.log("playerProgress", playerProgress.totalProgress, playerProgress.levelRequirementProgresses);
+    console.log("playerProgress", playerProgress.overallProgress);
     scrimmage.api.gameRules.getAll().then((gameRules) => {
         console.log("gameRules", gameRules);
 
