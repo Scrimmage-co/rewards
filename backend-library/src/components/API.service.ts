@@ -90,7 +90,6 @@ export class APIService implements ScrimmageRewardsAPI {
         },
       },
     );
-    //make it safe
     return await response.data.token;
   }
 
