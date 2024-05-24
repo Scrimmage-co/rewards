@@ -3,6 +3,7 @@ import { ScrimmageRewardsAPI } from '../types/ScrimmageRewardsAPI';
 import { IRewardableEventDTO, Rewardable } from '@scrimmage/schemas';
 import { HttpStatusCode } from 'axios';
 import { AccountNotLinkedException } from '../exceptions/AccountNotLinked.exception';
+import { InvalidPrivateKeyException } from '../exceptions/InvalidPrivateKey.exception';
 import { ConfigService } from './Config.service';
 import {
   ScrimmageAPIService,
@@ -51,6 +52,12 @@ export class APIService implements ScrimmageRewardsAPI {
     } catch (error) {
       if (error.response.status === HttpStatusCode.NotFound) {
         return Promise.reject(new AccountNotLinkedException(reward.userId));
+      }
+      if (
+        error.response?.status === HttpStatusCode.Unauthorized ||
+        error.response?.status === HttpStatusCode.Forbidden
+      ) {
+        return Promise.reject(new InvalidPrivateKeyException());
       }
       return Promise.reject(error);
     }
