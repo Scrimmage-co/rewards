@@ -1,0 +1,26 @@
+{
+  "name": "libconsumer",
+  "version": "3.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "test": "npx ts-node",
+    "start": "ts-node index.ts",
+    "init": "tsc --init"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@scrimmage/rewards": "file:../backend-library",
+    "@scrimmage/schemas": "*",
+    "axios": "^1.4.0",
+    "express": "^4.19.1",
+    "rxjs": "^7.8.1",
+    "ts-node-dev": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.2.3"
+  }
+}
