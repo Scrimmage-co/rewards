@@ -1,6 +1,6 @@
 {
   "name": "@scrimmage/js-sdk",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -13,7 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@scrimmage/schemas": "^1.3.0",
-    "@scrimmage/scrimlang": "^1.0.0",
+    "@scrimmage/scrimlang": "^1.1.1",
     "axios": "^1.6.8",
     "axios-retry": "^4.1.0",
     "inversify": "^6.0.2",
