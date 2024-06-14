@@ -124,4 +124,33 @@ export class APIService implements ScrimmageRewardsAPI {
     );
     return response.data;
   }
+
+  async updateRewardableProperty(
+    namespace: string,
+    dataType: string,
+    key: string,
+    value: any,
+  ): Promise<any> {
+    const privateKey = this.config.getPrivateKeyOrThrow();
+    const serviceUrl = this.config.getServiceUrl('api');
+    const httpClient = this.config.getHttpClientOrThrow();
+    console.log(
+      'updateRewardableProperty',
+      `${serviceUrl}/rewardable-properties/${dataType}${key}`,
+      value,
+    );
+    const response = await httpClient.put(
+      `${serviceUrl}/rewardable-properties/${dataType}${key}`,
+      {
+        value,
+      },
+      {
+        headers: {
+          Authorization: `Token ${privateKey}`,
+          'Scrimmage-Namespace': namespace,
+        },
+      },
+    );
+    return response.data;
+  }
 }

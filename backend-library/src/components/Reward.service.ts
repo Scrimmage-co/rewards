@@ -23,6 +23,14 @@ export class RewardService {
     return results;
   }
 
+  async aggregateEvent(userId: string, statistics: Record<string, any>) {
+    for (const [dataType, stats] of Object.entries(statistics)) {
+      for (const [key, value] of Object.entries(stats)) {
+        await this.API.updateRewardableProperty(userId, dataType, key, value);
+      }
+    }
+  }
+
   async trackRewardableOnce<T extends Rewardable = Rewardable>(
     userId: string,
     dataType: string,
