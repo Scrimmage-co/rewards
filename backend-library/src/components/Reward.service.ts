@@ -23,20 +23,6 @@ export class RewardService {
     return results;
   }
 
-  async aggregateEvent(
-    userId: string,
-    statistics: Record<string, any>,
-  ): Promise<IRewardableEventDTO[]> {
-    const results = [];
-    for (const [dataType, stats] of Object.entries(statistics)) {
-      const [eventName, namespace] = dataType.split('::');
-      results.push(
-        await this.API.createIntegrationReward(userId, eventName, stats),
-      );
-    }
-    return results;
-  }
-
   async trackRewardableOnce<T extends Rewardable = Rewardable>(
     userId: string,
     dataType: string,
