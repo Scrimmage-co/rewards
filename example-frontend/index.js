@@ -12,7 +12,7 @@ scrimmage.api.player.get().then((player) => {
     console.log("player", player);
     const levelUpRequirements = player.levelConfig?.levelUpRequirements ?? [];
     const userProperties = player.properties ?? [];
-    const playerProgress = getRequirementsProgress(levelUpRequirements,userProperties);
+    const playerProgress = getRequirementsProgress(levelUpRequirements, userProperties);
     console.log("playerProgress", playerProgress.overallProgress);
     scrimmage.api.gameRules.getAll().then((gameRules) => {
         console.log("gameRules", gameRules);
