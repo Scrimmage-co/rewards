@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@scrimmage/js-sdk": "file:../frontend-library",
-    "@scrimmage/ui-toolkit": "^0.0.2",
+    "@scrimmage/ui-toolkit": "^0.1.2",
     "ts-node": "^10.9.2"
   },
   "type": "module"

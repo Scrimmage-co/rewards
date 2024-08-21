@@ -39,9 +39,9 @@ const ScrimmageComponent = () => {
 
   return (
     <p>
-        {player ? `Player Level: ${player.stats.level}` : "Loading..."}
+        {player ? `Player Level: ${player.properties['$.level']}` : "Loading..."}
         <br />
-        {playerProgress ? `Player Progress: ${playerProgress?.totalProgress} / 100. Can he level up? ${playerProgress?.canLevelUp}` : "Loading..."}
+        {playerProgress ? `Player Progress: ${playerProgress?.overallProgress} / 100. Can he level up? ${playerProgress?.completed ? 'Yes' : 'No'}` : "Loading..."}
     </p>
   );
 }
