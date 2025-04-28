@@ -3,12 +3,18 @@
     "outDir": "./dist/",
     "noImplicitAny": false,
     "module": "commonjs",
-    "target": "es5",
+    "target": "es2017",
     "allowJs": true,
     "moduleResolution": "node",
     "sourceMap": true,
-    "lib": ["es6", "dom"],
-    "types": ["reflect-metadata"],
+    "resolveJsonModule": true,
+    "lib": [
+      "es2019",
+      "dom"
+    ],
+    "types": [
+      "reflect-metadata"
+    ],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
