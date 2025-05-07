@@ -7,7 +7,6 @@
     "allowJs": true,
     "moduleResolution": "node",
     "sourceMap": true,
-    "resolveJsonModule": true,
     "lib": [
       "es2019",
       "dom"
