@@ -62,12 +62,12 @@ export class Updates extends EventEmitter {
     });
 
     const bufferNext = createBufferTime<GameEventType>(500, events => {
-      this.emit('game.events', events);
+      this.socket.emit('game.events', events);
       const tags = events
         .flatMap(event => EVENT_INVALIDATION_MAPPING[event])
         .reduce<ScrimmageBaseApiTagType[]>(uniqueReducer, [])
         .filter(tag => Boolean(tag));
-      this.emit('refresh.events', tags);
+      this.socket.emit('refresh.events', tags);
     });
 
     this.socket.once('connect', () => {
