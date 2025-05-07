@@ -4,9 +4,7 @@
     "experimentalDecorators": true,
     "module": "commonjs",
     "outDir": "./dist",
-    "target": "es2017",
-    "resolveJsonModule": true,
-    "esModuleInterop": true
+    "target": "es2017"
   },
   "include": [
     "src/**/*"

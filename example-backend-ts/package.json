@@ -12,7 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@scrimmage/rewards": "file:../backend-library",
-    "@scrimmage/schemas": "^1.14.3",
+    "@scrimmage/schemas": "^1.14.5",
     "axios": "^1.8.4",
     "express": "^4.21.2",
     "rxjs": "^7.8.1",

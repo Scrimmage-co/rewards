@@ -12,8 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@scrimmage/schemas": "^1.14.3",
-    "@scrimmage/scrimlang": "^1.3.3",
+    "@scrimmage/schemas": "^1.14.5",
+    "@scrimmage/scrimlang": "^1.3.4",
     "axios": "^1.8.4",
     "axios-retry": "^4.5.0",
     "inversify": "^6.2.2",
